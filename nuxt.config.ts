@@ -8,8 +8,15 @@ export default defineNuxtConfig({
   // https://nuxt.com/modules
   modules: [
     '@nuxthub/core',
-    '@nuxt/eslint'
+    '@nuxt/eslint',
+    '@nuxt/ui',
+    'vue-clerk/nuxt',
+    '@nuxt/image',
+    '@nuxt/fonts',
   ],
+  clerk: {
+    appearance: {}
+  },
   hub: {
     database: true,
     kv: true,

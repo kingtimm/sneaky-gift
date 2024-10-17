@@ -22,8 +22,8 @@ async function deleteImage (pathname: string) {
 </script>
 
 <template>
-  <div>
-    <h3>Images</h3>
+  <div class="prose">
+    <h3 class="">Images</h3>
     <form @submit.prevent="uploadImage">
       <label>Upload an image: <input type="file" name="image" accept="image/jpg,image/png"></label>
       <button type="submit">

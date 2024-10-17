@@ -1,11 +1,12 @@
+
 export default eventHandler(async (event) => {
   const { text } = await readBody(event)
-  const db = hubDatabase()
+  const db = useDrizzle()
 
-  await db
-    .prepare('INSERT INTO messages (text, created_at) VALUES (?1, ?2)')
-    .bind(text, Date.now())
-    .run()
+  await db.insert(tables.messages).values({
+    text: text,
+    createdAt: new Date()
+  }).returning().get()
 
   return {}
 })
