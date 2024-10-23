@@ -15,13 +15,14 @@ const inputState = reactive<Partial<Schema>>({
 
 
 const toast = useToast()
-async function onSubmit(event: FormSubmitEvent<Schema>) {
+async function onSubmit(_event: FormSubmitEvent<Schema>) {
   toast.add({ title: 'Success', description: 'Created new List', color: 'success' })
   await $fetch('/api/lists', { method: 'post', body: inputState })
   await refresh()
 }
 
 const {data: lists, refresh} = await useLazyFetch('/api/lists')
+
 
 </script>
 

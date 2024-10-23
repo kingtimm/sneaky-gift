@@ -13,9 +13,16 @@ export default defineNuxtConfig({
     'vue-clerk/nuxt',
     '@nuxt/image',
     '@nuxt/fonts',
+    '@nuxt/test-utils/module',
+    '@pinia/nuxt',
   ],
   clerk: {
     appearance: {}
+  },
+  fonts: {
+    defaults: {
+      weights: [200, 400]
+    }
   },
   hub: {
     database: true,
