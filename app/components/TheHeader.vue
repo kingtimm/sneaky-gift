@@ -29,9 +29,9 @@ const menuItemsWithAuthed = computed(()=> {
 </script>
 
 <template>
-  <div class='flex items-center p-2 sticky'>
+  <div class='flex items-center p-2 sticky justify-between'>
     <TheLogo class="w-1/5"/>
-    <UNavigationMenu :items="menuItemsWithAuthed" class="justify-center" />
+    <!-- <UNavigationMenu :items="menuItemsWithAuthed" class="justify-center" /> -->
     <div class="w-1/5 flex justify-end">
       <ClientOnly>
         <SignedOut>
