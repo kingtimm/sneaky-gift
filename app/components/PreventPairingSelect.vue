@@ -134,7 +134,4 @@ const state = reactive({
       </UFormField>
       <UButton label="Add Rule" :disabled="!PreventPairingFormSchema.safeParse(state).success" @click="addRule()"/>
     </UForm>
-  <div v-if="store.exclusions.length> 0">
-    <pre>{{ store.exclusionsAsName }}</pre>
-  </div>
 </template>
