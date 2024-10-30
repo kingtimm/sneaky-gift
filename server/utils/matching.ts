@@ -2,23 +2,6 @@
 
 type Exclusions = number[][]
 
-// function getRandomInt(min: number, max:number, exclusions?: number[]) {
-//   const randomBuffer = new Uint32Array(1);
-
-//   getRandomValues(randomBuffer);
-
-//   const randomNumber = randomBuffer[0] / (0xffffffff + 1);
-
-//   min = Math.ceil(min);
-//   max = Math.floor(max);
-//   const result = Math.floor(randomNumber * (max - min + 1)) + min;
-//   // recursively avoid exclusions
-//   if (exclusions?.includes(result)) {
-//     return getRandomInt(min, max, exclusions)
-//   }
-//   return result
-// }
-
 function getRandomItem<T>(array: T[]) {
   return array[Math.floor((Math.random()*array.length))];
 }
@@ -61,7 +44,13 @@ export function getAllPossibilities(array: number[], exclusions?: Exclusions): n
     })
     return !isRejectable
   })
-
+  console.log('possibilities ', possibilities)
+  if (possibilities.length === 0) {
+    throw createError({
+      statusCode: 400,
+      message: "No secret santa matches for this list"
+    })
+  }
   return possibilities
 }
 

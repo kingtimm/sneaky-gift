@@ -30,7 +30,8 @@ useSeoMeta({
   --color-primary-950: var(--ui-color-primary-950);
 }
 
-body {
-  font-family: 'Lilita One', sans-serif;
+body 
+@theme {
+  --font-family-display: "Lilita One", "sans-serif";
 }
 </style>

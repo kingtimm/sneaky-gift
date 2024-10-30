@@ -7,14 +7,14 @@ export default defineEventHandler(async (event) => {
       memberList: z.array(z.number()).refine((items) => new Set(items).size === items.length, {
         message: 'All items must be unique, no duplicate values allowed',
       }),
-      exclusions: z.array(z.array(z.number()))
+      exclusions: z.array(z.array(z.number()).length(2))
     })
 
-  const { memberList } = await readValidatedBody(event, MemberListShape.parse)
+  const { memberList, exclusions } = await readValidatedBody(event, MemberListShape.parse)
 
   return {
-    total: getTotalPossibilites(memberList),
-    possibility: getPossibility(memberList)
+    total: getTotalPossibilites(memberList, exclusions),
+    possibility: getPossibility(memberList, exclusions)
   }
 
 })

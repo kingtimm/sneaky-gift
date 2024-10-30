@@ -33,12 +33,14 @@ const menuItemsWithAuthed = computed(()=> {
     <TheLogo class="w-1/5"/>
     <UNavigationMenu :items="menuItemsWithAuthed" class="justify-center" />
     <div class="w-1/5 flex justify-end">
-      <SignedOut>
-        <SignInButton mode="modal" class="cursor-pointer"/>
-      </SignedOut>
-      <SignedIn>
-        <UserButton/>
-      </SignedIn>
+      <ClientOnly>
+        <SignedOut>
+          <SignInButton mode="modal" class="cursor-pointer"/>
+        </SignedOut>
+        <SignedIn>
+          <UserButton/>
+        </SignedIn>
+      </ClientOnly>
     </div>
   </div>
 </template>

@@ -15,15 +15,21 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/test-utils/module',
     '@pinia/nuxt',
+    '@vueuse/nuxt'
   ],
   clerk: {
     appearance: {}
   },
   fonts: {
     defaults: {
-      weights: [200, 400]
-    }
+      weights: [200, 400],
+      styles: ["normal"]
+    },
+    experimental: {
+      processCSSVariables: true,
+    },
   },
+
   hub: {
     database: true,
     kv: true,
