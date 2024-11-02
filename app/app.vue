@@ -6,10 +6,12 @@ useSeoMeta({
 </script>
 
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-    <UToaster/>
-  </NuxtLayout>
+  <UApp>
+    <NuxtLayout>
+      <NuxtPage />
+      <UToaster/>
+    </NuxtLayout>
+  </UApp>
 </template>
 
 <style>

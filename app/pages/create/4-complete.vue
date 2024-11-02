@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <UContainer class="flex flex-col gap-2">
     <div class='flex items-center gap-4'>
       <h1 class="text-xl">Names</h1>
       <UButton label="Select Santas" @click="fetchPossibilities()" />
@@ -7,50 +7,54 @@
     <div>
       <p v-if="possibilities?.total">Total Possibilities: {{ possibilities?.total }}</p>
     </div>
-    <div class="flex">
-      <div class="w-1/2 flex flex-col gap-2 font-thin w-full">
+    <div class="flex gap-2">
+      <div class="flex flex-col gap-2 font-thin w-full">
         <div
 v-for="member, i in store.inputState.members" :key="i"
-          class="flex-1 block font-thin bg-neutral-800 p-2 flex justify-between items-center rounded">
+          class="font-thin flex justify-between items-center gap-2">
+          <div class="flex-1 bg-neutral-800 p-2 rounded">
           {{ member.name }}
-        </div>
-      </div>
-      <div v-if="possibilities?.possibility" class='w-1/2 flex flex-col gap-2 font-thin w-full'>
-        <div
-v-for="memberIdx, idx in possibilities.possibility" :key="idx"
-          class="flex-1 block font-thin bg-neutral-800 p-2 flex justify-between items-center rounded">
-          {{ store.inputState.members[memberIdx]?.name }}
+          </div>
+          <template v-if="possibilities?.possibility">
+                  <UIcon class="" name="i-heroicons-arrow-right-20-solid" />
+                  <div class="flex-1 font-thin bg-neutral-800 p-2 flex justify-between items-center rounded">
+                      <div v-if="possibilities.possibility[i] !== undefined" class="flex items-center">
+                      
+                      {{ store.inputState.members[possibilities.possibility[i]].name }}
+                    </div>
+                </div>
+            </template>
         </div>
       </div>
       <Teleport defer to="#create-controls">
-        <UButton type='submit' label="Save" />
+        <UButton type='submit' label="Save" @click="onSubmit()" />
       </Teleport>
     </div>
 
-  </div>  
+  </UContainer>
 
 
 </template>
 
 <script setup lang="ts">
 import type { FormSubmitEvent, TabsItem } from '@nuxt/ui';
+import LoginCTA from '~/components/modals/LoginCTA.vue';
 
 defineProps<{ items: TabsItem, index: number }>()
 
 const store = useSecretSantaListStore()
 
 const toast = useToast()
-async function onSubmit(_event: FormSubmitEvent<InputStateSchema>) {
-  toast.add({ title: 'Success', description: 'Created new List', color: 'success' })
-  await $fetch('/api/lists', { method: 'post', body: store.inputState })
-  store.inputState.name = ""
+const modal = useModal()
+async function onSubmit(_event?: FormSubmitEvent<InputStateSchema>) {
+  modal.open(LoginCTA, { title: "Log in" })
 }
 
 const { data: possibilities, execute: fetchPossibilities, error } = await useAsyncData('possibilities', () => store.getPossibilities(), {
   immediate: false
 })
 
-watch(error, ()=>{
+watch(error, () => {
   if (error.value) {
     toast.add({
       title: "Error",
