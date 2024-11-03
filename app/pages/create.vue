@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CreateNavigation :items="items" :active-tab="activeTab"/>
+    <CreateNavigation class="max-sm:hidden" :items="items" :active-tab="activeTab"/>
     <NuxtPage :page-key="route => route.fullPath" :items="items" :index="activeTab" :surround-nav="surroundNav"/>
     <div id="create-controls" class="flex justify-between space-x-4 mt-4">
       <UButton v-if="items[activeTab]?.controls === 'both' || items[activeTab]?.controls === 'previous-only'" variant="outline" label="Back" @click="previousTab()" />
@@ -29,7 +29,7 @@ definePageMeta({
 const store = useSecretSantaListStore()
 const items = ref([
   {
-    label: 'Getting Started',
+    label: 'Start',
     disabled: false,
     to: '/create/1-name/',
     controls: 'next-only'

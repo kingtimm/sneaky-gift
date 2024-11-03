@@ -15,7 +15,8 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/test-utils/module',
     '@pinia/nuxt',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@formkit/auto-animate/nuxt',
   ],
   clerk: {
     appearance: {}
