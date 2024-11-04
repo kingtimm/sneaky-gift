@@ -35,7 +35,9 @@ const menuItemsWithAuthed = computed(()=> {
     <div class="w-1/5 flex justify-end">
       <ClientOnly>
         <SignedOut>
-          <SignInButton mode="modal" class="cursor-pointer"/>
+          <SignInButton v-slot="props" mode="modal" class="cursor-pointer"> 
+            <UButton v-bind="props" label="Sign In" />
+          </SignInButton> 
         </SignedOut>
         <SignedIn>
           <UserButton/>

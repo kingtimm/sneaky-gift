@@ -3,7 +3,10 @@
     <CreateNavigation class="max-sm:hidden" :items="items" :active-tab="activeTab"/>
     <NuxtPage :page-key="route => route.fullPath" :items="items" :index="activeTab" :surround-nav="surroundNav"/>
     <div id="create-controls" class="flex justify-between space-x-4 mt-4">
-      <UButton v-if="items[activeTab]?.controls === 'both' || items[activeTab]?.controls === 'previous-only'" variant="outline" label="Back" @click="previousTab()" />
+      <div class="flex gap-2">
+        <UButton v-if="items[activeTab]?.controls === 'both' || items[activeTab]?.controls === 'previous-only'" variant="outline" label="Back" @click="previousTab()" />
+        <UButton label="Start Over" @click="store.reset(); navigateTo('/create/1-name/')" />
+      </div>
       <UButton v-if="items[activeTab]?.controls === 'both' || items[activeTab]?.controls === 'next-only'" variant="outline" label="Next" :disabled="store.shouldDisable(activeTab + 1).value" @click="nextTab()" />
     </div>
   </div>
@@ -17,10 +20,14 @@ definePageMeta({
     function (to, _from) {
       const store = useSecretSantaListStore()
       // Custom inline middleware to get to the start
-      if (to.path !== '/create/1-name/') {
-        if (store.inputState.name.length === 0) {
-          return navigateTo('/create/1-name/')
-        }
+      if (to.path === '/create' || to.path === '/create/') {
+        return navigateTo('/create/1-name/')
+      } else if 
+        (to.path !== '/create/1-name/') {
+          if (store.inputState.name.length === 0) {
+            return navigateTo('/create/1-name/')
+          }
+        
       }
     },
   ],

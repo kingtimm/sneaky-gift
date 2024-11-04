@@ -1,12 +1,10 @@
 <template>
   <UContainer class="flex flex-col gap-2">
+    <h1 class="mt-5 text-xl">Get Ready</h1>
     <div class='flex items-center gap-4'>
-      <h1 class="text-xl">Names</h1>
-      <UButton label="Select Santas" @click="fetchPossibilities()" />
+      <UButton label="Show Pairings" @click="fetchPossibilities()" />
     </div>
-    <div>
-      <p v-if="possibilities?.total">Total Possibilities: {{ possibilities?.total }}</p>
-    </div>
+    
     <div class="flex gap-2">
       <div class="flex flex-col gap-2 font-thin w-full">
         <div
@@ -27,10 +25,14 @@ v-if="possibilities !== undefined"
           </template>
         </div>
       </div>
-      <Teleport defer to="#create-controls">
-        <UButton type='submit' label="Save" @click="onSubmit()" />
-      </Teleport>
+      
     </div>
+    <div>
+      <p v-if="possibilities?.total">Total Possibilities: {{ possibilities?.total }}</p>
+    </div>
+    <Teleport defer to="#create-controls">
+      <UButton type='submit' label="Save" @click="onSubmit()" />
+    </Teleport>
 
   </UContainer>
 

@@ -16,7 +16,7 @@ defineProps<{
   name?: string
 }>()
 
-const [parent] = useAutoAnimate({duration: 500, easing: 'ease-in'})
+const [parent] = useAutoAnimate({duration: 500, easing: 'ease-out', })
 const revealed = defineModel<boolean>({default: false, required: false})
 
 function revealName() {

@@ -29,15 +29,17 @@ export const ExclusionRowSchema = z.array(
       if (typeof pair[0] === 'number' && typeof pair[1] === 'number') {
         return pair[0] !== pair[1]}
     }
-  }, { message: "Secret Santa already excludes self-gifting" })
+  }, { message: "Secret Santa already prevents self-gifting" })
 
 export const useSecretSantaListStore = defineStore('secretSantaList', () => {
 
-  const inputState: Reactive<InputStateSchema> = reactive({
+  const _defaultState = {
     name: '',
     suggestedSpend: 20,
     members: [] as InputStateSchema["members"]
-  })
+  }
+
+  const inputState: Ref<InputStateSchema> = ref(_defaultState)
 
   const newMemberInputState = reactive({
     name: ''
@@ -46,10 +48,14 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
   const possibilities = ref(0)
   const currentScenario: Ref<number[]> = ref([0])
 
+  function reset() {
+    inputState.value = _defaultState
+  }
+
   async function getPossibilities() {
     const data = await $fetch('/api/match', {
       method: 'post', body: {
-        memberList: [...inputState.members.keys()], // only send the keys
+        memberList: [...inputState.value.members.keys()], // only send the keys
         exclusions: exclusions.value
       }
     })
@@ -63,9 +69,9 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     // return True to disable
     const stepsPrerequisites: (() => boolean)[] = [
       () => false,
-      () => inputState.name === "" || !StateZSchema.pick({ name: true }).safeParse(inputState).success,
-      () => inputState.members.length <= 1,
-      () => inputState.members.length <= 1,
+      () => inputState.value.name === "" || !StateZSchema.pick({ name: true }).safeParse(inputState).success,
+      () => inputState.value.members.length <= 1,
+      () => inputState.value.members.length <= 1,
     ]
     const result = stepsPrerequisites[step] ??= () => false
     return computed(result)
@@ -75,9 +81,9 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
   const exclusions = computed(() => {
     const result: [number, number][] = []  
 
-    for (const [memberIndex, member] of inputState.members.entries()){
+    for (const [memberIndex, member] of inputState.value.members.entries()){
       for (const exclusionIndex of member.exclusions) {
-        if (inputState.members[exclusionIndex]) {
+        if (inputState.value.members[exclusionIndex]) {
           result.push([
             memberIndex,
             exclusionIndex
@@ -91,8 +97,8 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
   const exclusionsAsName = computed(()=> {
     return exclusions.value.map((row)=> {
         return [
-          inputState.members[row[0]]?.name,
-          inputState.members[row[1]]?.name,
+          inputState.value.members[row[0]]?.name,
+          inputState.value.members[row[1]]?.name,
         ]
     })
   })
@@ -103,6 +109,9 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     getPossibilities,
     shouldDisable,
     exclusions,
-    exclusionsAsName
+    exclusionsAsName,
+    reset
   }
+}, {
+  persist: true
 })

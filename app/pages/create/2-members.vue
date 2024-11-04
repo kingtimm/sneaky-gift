@@ -1,7 +1,9 @@
 <template>
   <div>
+    <h1 class="mt-5 text-xl">Who's in?</h1>
+    <p class="font-extralight">Enter members in the gift exchange group</p>
     <UForm
-:schema="listMemberInputSchema" :state="store.newMemberInputState" class="space-y-4"
+:schema="listMemberInputSchema" :state="store.newMemberInputState" class="py-4 space-y-4"
       @submit.prevent="addMember">
       <UFormField label="Members" name="name">
         <div class="flex gap-3">
@@ -14,7 +16,7 @@ label="Add" :disabled="!listMemberInputSchema.safeParse(store.newMemberInputStat
     </UForm>
     <div v-if="store.inputState.members.length > 0">
       <h1 class="mt-5 text-xl">Names</h1>
-      <div class="py-3 grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 font-thin w-full">
+      <div v-auto-animate class="py-3 grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 font-thin w-full">
         <div
 v-for="member, i in store.inputState.members" :key="i"
           class="font-thin bg-neutral-800 p-2 flex justify-between items-center rounded">
@@ -32,9 +34,10 @@ variant="soft" label="Remove"
 <script setup lang="ts">
 import type { TabsItem } from '@nuxt/ui';
 
-const props = defineProps<{ items: TabsItem, index: number }>()
+defineProps<{ items: TabsItem, index: number }>()
 
 const store = useSecretSantaListStore()
+const {inputState} = storeToRefs(store)
 const toast = useToast()
 
 const listMemberInputRef = useTemplateRef('memberInput')
@@ -49,7 +52,7 @@ async function addMember() {
     })
     return
   }
-  store.inputState.members?.push(
+  inputState.value.members?.push(
     {
       name: store.newMemberInputState.name,
       exclusions: []

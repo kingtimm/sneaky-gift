@@ -16,7 +16,7 @@ const modal = useModal()
           <li>and more</li>
         </ul>
         <SignInButton v-slot="props" as-child class="flex-none" mode="modal">
-          <UButton v-bind="props" label="Sign In" size="lg" />
+          <UButton v-bind="props" label="Sign In" size="lg" @click="modal.close(); props.handler();"/>
         </SignInButton>
       </div> 
     </template>

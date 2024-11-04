@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@pinia/nuxt',
     '@vueuse/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
     '@formkit/auto-animate/nuxt',
   ],
   clerk: {
