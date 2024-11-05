@@ -67,6 +67,12 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     return data
   }
 
+  watch(inputState.value.members, (_newValue, _oldValue) => {
+    // reset current scenario and possibilities
+    possibilities.value = 0
+    currentScenario.value = []
+  })
+
   function shouldDisable(step: number) {
     // return True to disable
     const stepsPrerequisites: (() => boolean)[] = [
