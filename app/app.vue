@@ -30,10 +30,15 @@ useSeoMeta({
   --color-primary-800: var(--ui-color-primary-800);
   --color-primary-900: var(--ui-color-primary-900);
   --color-primary-950: var(--ui-color-primary-950);
-}
-
-body 
-@theme {
   --font-family-display: "Lilita One", "sans-serif";
 }
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
+  font-size: 16px;
+}
+
 </style>
