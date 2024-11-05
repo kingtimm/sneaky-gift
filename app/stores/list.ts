@@ -69,7 +69,7 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     // return True to disable
     const stepsPrerequisites: (() => boolean)[] = [
       () => false,
-      () => inputState.value.name === "" || !StateZSchema.pick({ name: true }).safeParse(inputState).success,
+      () => inputState.value.name === "" || !StateZSchema.pick({ name: true }).safeParse(inputState.value).success,
       () => inputState.value.members.length <= 1,
       () => inputState.value.members.length <= 1,
     ]
