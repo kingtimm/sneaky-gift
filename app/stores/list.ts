@@ -46,10 +46,13 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
   })
 
   const possibilities = ref(0)
-  const currentScenario: Ref<number[]> = ref([0])
+  const currentScenario: Ref<number[]> = ref([])
 
-  function reset() {
+  async function reset() {
     inputState.value = _defaultState
+    possibilities.value = 0
+    currentScenario.value = []
+    await nextTick()
   }
 
   async function getPossibilities() {
@@ -61,7 +64,6 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     })
     possibilities.value = data.total
     currentScenario.value = data.possibility
-    console.log('got it!', data)
     return data
   }
 
@@ -110,7 +112,8 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     shouldDisable,
     exclusions,
     exclusionsAsName,
-    reset
+    reset,
+    currentScenario
   }
 }, {
   persist: true

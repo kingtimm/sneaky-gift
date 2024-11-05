@@ -13,13 +13,13 @@ v-for="member, i in store.inputState.members" :key="i"
           <div class="flex-1 bg-neutral-800 p-2 rounded">
             {{ member.name }}
           </div>
-          <template v-if="possibilities?.possibility">
+          <template v-if="store.currentScenario.length > 0">
             <UIcon class="" name="i-heroicons-arrow-right-20-solid" />
             <div class="flex-1 font-thin bg-neutral-800 p-2 flex justify-between items-center rounded">
               <div
-v-if="possibilities !== undefined"
+v-if="store.currentScenario !== undefined"
                 class="flex items-center">
-                {{ store.inputState.members[possibilities.possibility[i]].name }}
+                {{ store.inputState.members[store.currentScenario[i]].name }}
               </div>
             </div>
           </template>

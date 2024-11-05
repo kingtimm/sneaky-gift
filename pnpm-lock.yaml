@@ -54,6 +54,9 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
+      '@iconify-json/heroicons':
+        specifier: ^1.2.1
+        version: 1.2.1
       '@nuxt/eslint-config':
         specifier: ^0.6.1
         version: 0.6.1(eslint@9.14.0(jiti@2.4.0))(typescript@5.6.3)
@@ -1272,6 +1275,9 @@ packages:
   '@humanwhocodes/retry@0.4.0':
     resolution: {integrity: sha512-xnRgu9DxZbkWak/te3fcytNyp8MTbuiZIaueg2rgEvBuN55n04nwLYLU9TX/VVlusc9L2ZNXi99nUFNkHXtr5g==}
     engines: {node: '>=18.18'}
+
+  '@iconify-json/heroicons@1.2.1':
+    resolution: {integrity: sha512-TkKfS5U27kE5MXmSGLzPoz95BP5VA9xEJXwJFwmPMVLX+xyWq0OkoiWTUXB0uAoQODpb8BaRpzSydItrq9fIRA==}
 
   '@iconify/collections@1.0.478':
     resolution: {integrity: sha512-qcjdK6fMB77zHqDwZ13l9Uww6MzYE2j/dGl39cmx7ot8DJDmvYLop+dU1Gleg7o6txl4060Yq3SAd57jxbjs3w==}
@@ -6568,6 +6574,10 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.0': {}
 
+  '@iconify-json/heroicons@1.2.1':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify/collections@1.0.478':
     dependencies:
       '@iconify/types': 2.0.0
@@ -8678,7 +8688,7 @@ snapshots:
   dot-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.8.1
     optional: true
 
   dot-prop@8.0.2:
@@ -9874,7 +9884,7 @@ snapshots:
 
   lower-case@2.0.2:
     dependencies:
-      tslib: 2.4.1
+      tslib: 2.8.1
     optional: true
 
   lru-cache@10.4.3: {}
@@ -10229,7 +10239,7 @@ snapshots:
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.4.1
+      tslib: 2.8.1
     optional: true
 
   node-abi@3.71.0:
@@ -11167,7 +11177,7 @@ snapshots:
   snake-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.4.1
+      tslib: 2.8.1
     optional: true
 
   snakecase-keys@5.4.4:
