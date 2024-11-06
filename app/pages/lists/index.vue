@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui';
 import type { z } from 'zod'
-import { ListInsertShape } from '~~/types/lists';
+import { ListInsertShape } from '~~/shared/types/lists';
 
 const schema = ListInsertShape.pick({
   name: true

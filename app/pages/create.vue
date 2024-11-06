@@ -11,14 +11,10 @@ v-if="items[activeTab]?.controls === 'both' || items[activeTab]?.controls === 'p
 v-model:open="open" title="Start Over" description="Press Delete to erase and start over."
           :ui="{ footer: 'justify-end' }">
           <UButton v-if="activeTab > 0" label="Start Over" icon="i-heroicons-trash" />
-<!-- 
-          <template #body>
-            <p>Are you sure you want to start over?</p>
-          </template> -->
     
           <template #footer>
             <UButton label="Cancel" color="neutral" variant="outline" @click="open = false" />
-            <UButton label="Delete" color="neutral" @click="store.reset(); navigateTo('/create/1-name/'); open=false" />
+            <UButton label="Delete" color="neutral" @click="handleDelete()" />
           </template>
         </UModal>
       </div>
@@ -30,7 +26,7 @@ v-if="items[activeTab]?.controls === 'both' || items[activeTab]?.controls === 'n
 </template>
 
 <script setup lang="ts">
-import type { TabbedNavigationPageItem } from '~~/types/ui';
+import type { TabbedNavigationPageItem } from '~~/shared/types/ui';
 
 const open = ref(false)
 
@@ -111,9 +107,14 @@ watch([store.inputState], async () => {
   }
 })
 
-
 const surroundNav = reactive({
   prevUrl, nextUrl
 })
+
+async function handleDelete() {
+  await store.reset()
+  open.value = false
+  return navigateTo('/create/1-name/')
+}
 
 </script>

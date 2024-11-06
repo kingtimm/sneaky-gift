@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import type { Reactive } from 'vue'
 import { z } from 'zod'
 
 export const ListMemberZSchema = z.object({
@@ -33,13 +32,15 @@ export const ExclusionRowSchema = z.array(
 
 export const useSecretSantaListStore = defineStore('secretSantaList', () => {
 
-  const _defaultState = {
-    name: '',
-    suggestedSpend: 20,
-    members: [] as InputStateSchema["members"]
+  const _defaultState = () => {
+    return {
+      name: '',
+      suggestedSpend: 20,
+      members: [] as InputStateSchema["members"]
+    }
   }
 
-  const inputState: Ref<InputStateSchema> = ref(_defaultState)
+  const inputState: Ref<InputStateSchema> = ref(_defaultState())
 
   const newMemberInputState = reactive({
     name: ''
@@ -49,7 +50,7 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
   const currentScenario: Ref<number[]> = ref([])
 
   async function reset() {
-    inputState.value = _defaultState
+    inputState.value = _defaultState()
     possibilities.value = 0
     currentScenario.value = []
     await nextTick()

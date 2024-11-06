@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TabbedNavigationPageItem } from '~~/types/ui';
+import type { TabbedNavigationPageItem } from '~~/shared/types/ui';
 
 const props = defineProps<{
   items: TabbedNavigationPageItem[],

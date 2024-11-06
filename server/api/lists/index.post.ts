@@ -1,5 +1,5 @@
 import { getAuth } from "vue-clerk/server"
-import { ListInsertShape} from '~~/types/lists'
+import { ListInsertShape} from '~~/shared/types/lists'
 import type { InferInsertModel} from "drizzle-orm";
 
 export default defineEventHandler( async (evt) => {

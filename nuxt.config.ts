@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'pinia-plugin-persistedstate/nuxt',
     '@formkit/auto-animate/nuxt',
+    '@pinia/colada-nuxt',
   ],
   clerk: {
     appearance: {}
