@@ -1,35 +1,6 @@
 import { defineStore } from 'pinia'
 import { z } from 'zod'
 
-export const ListMemberZSchema = z.object({
-  name: z.string()
-    .min(1, "Name must be at least 1 character")
-    .max(35, "Name must be fewer than 36 Characters"),
-  exclusions: z.array(z.number())
-})
-
-// TODO: move this to types?
-export const StateZSchema = z.object({
-  name: z.string()
-    .min(2, "Name must be at least 2 characters")
-    .max(30, "Name must be fewer than 30 characters"),
-  suggestedSpend: z.number(),
-  members: z.array(ListMemberZSchema).refine(items => new Set(items).size === items.length, { message: "Must be a unique name" })
-})
-export type InputStateSchema = z.output<typeof StateZSchema>
-
-export const ExclusionRowSchema = z.array(
-  z.array(z.number()).length(2))
-  // .refine(
-  //   items => new Set(items).size === items.length,
-  //   { message: "Must not already be a rule for this" })
-  .refine(items => {
-    for (const pair of items) {
-      if (typeof pair[0] === 'number' && typeof pair[1] === 'number') {
-        return pair[0] !== pair[1]}
-    }
-  }, { message: "Secret Santa already prevents self-gifting" })
-
 export const useSecretSantaListStore = defineStore('secretSantaList', () => {
 
   const _defaultState = () => {
