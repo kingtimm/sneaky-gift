@@ -30,9 +30,9 @@ v-for="[member1, member2], i in store.exclusions"
 </template>
 
 <script setup lang="ts">
-import type { TabsItem } from '@nuxt/ui';
+// import type { TabsItem } from '@nuxt/ui';
 
-const props = defineProps<{ items: TabsItem[], index: number }>()
+// const props = defineProps<{ items: TabsItem[], index: number }>()
 
 const store = useSecretSantaListStore()
 const {inputState} = storeToRefs(store)

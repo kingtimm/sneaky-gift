@@ -34,3 +34,10 @@ export const ExclusionRowSchema = z.array(
         return pair[0] !== pair[1]}
     }
   }, { message: "Secret Santa already prevents self-gifting" })
+
+
+  export const MemberInsertSchema = z.object({
+    name: ListMemberZSchema.pick({'name': true}),
+    exclusions: ListMemberZSchema.pick({'exclusions': true}),
+    position: z.number()
+  })

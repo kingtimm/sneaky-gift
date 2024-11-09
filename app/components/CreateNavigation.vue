@@ -3,7 +3,7 @@ import type { TabbedNavigationPageItem } from '~~/shared/types/ui';
 
 const props = defineProps<{
   items: TabbedNavigationPageItem[],
-  activeTab: number
+  activeTab: number,
 }>()
 
 function shouldShowName(index: number, active: boolean | undefined) {
@@ -30,7 +30,8 @@ function shouldShowName(index: number, active: boolean | undefined) {
           {{ index + 1 }}
         </UBadge>
         
-        <p v-if="shouldShowName(index, active)">{{ item.label }}</p>
+        <!-- <p v-if="shouldShowName(index, active)">{{ item.label }}</p> -->
+        <p>{{ item.label }}</p>
         </div>
       </template>
     </UNavigationMenu>

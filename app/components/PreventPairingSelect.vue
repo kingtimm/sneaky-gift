@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { ExclusionRowSchema } from '~/stores/list';
-import { ListMemberZSchema } from '~/stores/list'
 import { z } from 'zod'
 import type { SelectMenuItem } from '@nuxt/ui'
 import { useCloned } from '@vueuse/core'
@@ -17,8 +15,6 @@ interface SelectMenuItemWithValue extends SelectMenuItem {
   disabled: boolean
 }
 
-
-
 function useArrays() {
   // this seems like it should be simplifed
 
@@ -31,7 +27,7 @@ function useArrays() {
   }))
 
   const leftArray = getBaseArray()
-  const {cloned: rightArray} = useCloned(getBaseArray())
+  const { cloned: rightArray } = useCloned(getBaseArray())
 
   // update arrays if props change
   watch(props.members, () => {
@@ -51,7 +47,7 @@ function useArrays() {
     for (const item of rightArray.value) {
       item.disabled = (item.label === leftValue.value.label)
     }
-  }, {immediate: true})
+  }, { immediate: true })
 
   return {
     leftArray,
@@ -61,7 +57,7 @@ function useArrays() {
   }
 }
 
-const { leftArray, leftValue, rightArray, rightValue} = useArrays()
+const { leftArray, leftValue, rightArray, rightValue } = useArrays()
 
 const enoughMembers = computed(() => props.members.length > 1)
 
@@ -71,14 +67,14 @@ const store = useSecretSantaListStore()
 
 const toast = useToast()
 
-const SelectionZSchema = z.object({label: z.string(), disabled:z.boolean()})
+const SelectionZSchema = z.object({ label: z.string(), disabled: z.boolean() })
 
 const PreventPairingFormSchema = z.object({
   rightValue: SelectionZSchema,
   leftValue: SelectionZSchema
 })
-.refine(items=>(items.rightValue.label!==items.leftValue.label), {message: 'Cannot be the same item'})
-.refine(items=>(items.rightValue.label!== '' || items.leftValue.label !== ''), {message: 'Cannot be blank'})
+  .refine(items => (items.rightValue.label !== items.leftValue.label), { message: 'Cannot be the same item' })
+  .refine(items => (items.rightValue.label !== '' || items.leftValue.label !== ''), { message: 'Cannot be blank' })
 
 
 function addRule() {
@@ -86,15 +82,15 @@ function addRule() {
   // get the positions of the items in their lists
   const rightIndex = rightArray.value.findIndex((item) => (item.label === rightValue.value.label))
   const leftIndex = leftArray.value.findIndex((item) => (item.label === leftValue.value.label))
-  
+
   // -1 = Left Only <, 1 = Right Only >, 0 should add both
 
   const exclusionsToAdd = [] as z.output<typeof ExclusionRowSchema>
   // parse if it is correct
-  
+
   // 0 or Left
   if (direction.value < 1) {
-    
+
     exclusionsToAdd.push([rightIndex, leftIndex])
   }
   if (direction.value > -1) {
@@ -104,17 +100,17 @@ function addRule() {
     if (x !== undefined && y !== undefined)
       //confirm they are not already in the list
       console.log('exclusionsToPush are currently', exclusionsToAdd)
-      console.log('exclusions are currently', store.exclusions)
-      if (store.exclusions.find(e=>JSON.stringify(e) === JSON.stringify([x,y]))) {
-        return
-      } else {
-        store.inputState.members[x!]?.exclusions.push(y!)
-      }
+    console.log('exclusions are currently', store.exclusions)
+    if (store.exclusions.find(e => JSON.stringify(e) === JSON.stringify([x, y]))) {
+      return
+    } else {
+      store.inputState.members[x!]?.exclusions.push(y!)
+    }
 
   }
 
-  rightValue.value = {label:'', disabled: false}
-  leftValue.value = {label:'', disabled: false}
+  rightValue.value = { label: '', disabled: false }
+  leftValue.value = { label: '', disabled: false }
 }
 
 const state = reactive({
@@ -124,14 +120,14 @@ const state = reactive({
 </script>
 
 <template>
-    <UForm v-if="enoughMembers" :state="state" :schema="PreventPairingFormSchema" class="flex gap-3 py-3 items-end">
-      <UFormField label="Name 1" class="flex-1" name="leftValue">
-        <USelectMenu v-model="state.leftValue" class="w-full h-8" :items="leftArray" placeholder="Select a Name" />
-      </UFormField>
-      <PreventDirectionButton v-model="direction" class=""/>
-      <UFormField label="Name 2" class="flex-1" name="rightValue">
-        <USelectMenu v-model="state.rightValue" class="w-full h-8" :items="rightArray" placeholder="Select a Name"/>
-      </UFormField>
-      <UButton label="Add Rule" :disabled="!PreventPairingFormSchema.safeParse(state).success" @click="addRule()"/>
-    </UForm>
+  <UForm v-if="enoughMembers" :state="state" :schema="PreventPairingFormSchema" class="flex gap-3 py-3 items-end">
+    <UFormField label="Name 1" class="flex-1" name="leftValue">
+      <USelectMenu v-model="state.leftValue" class="w-full h-8" :items="leftArray" placeholder="Select a Name" />
+    </UFormField>
+    <PreventDirectionButton v-model="direction" class="" />
+    <UFormField label="Name 2" class="flex-1" name="rightValue">
+      <USelectMenu v-model="state.rightValue" class="w-full h-8" :items="rightArray" placeholder="Select a Name" />
+    </UFormField>
+    <UButton label="Add Rule" :disabled="!PreventPairingFormSchema.safeParse(state).success" @click="addRule()" />
+  </UForm>
 </template>

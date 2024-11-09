@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SignInButton } from 'vue-clerk'
-
+defineProps<{redirectUrl?: string}>()
 const modal = useModal()
 </script>
 
@@ -15,7 +15,7 @@ const modal = useModal()
           <li>Blind Drawing</li>
           <li>and more</li>
         </ul>
-        <SignInButton v-slot="props" as-child class="flex-none" mode="modal">
+        <SignInButton v-slot="props" as-child class="flex-none" mode="modal" :force-redirect-url="redirectUrl">
           <UButton v-bind="props" label="Sign In" size="lg" @click="modal.close(); props.handler();"/>
         </SignInButton>
       </div> 

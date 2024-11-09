@@ -17,15 +17,14 @@ v-for="member, i in store.inputState.members" :key="i"
             <UIcon class="" name="i-heroicons-arrow-right-20-solid" />
             <div class="flex-1 font-thin bg-neutral-800 p-2 flex justify-between items-center rounded">
               <div
-v-if="store.currentScenario !== undefined"
+v-if="store.currentScenario[i] !== undefined"
                 class="flex items-center">
-                {{ store.inputState.members[store.currentScenario[i]].name }}
+                {{ store.inputState.members[store.currentScenario[i]]!.name }}
               </div>
             </div>
           </template>
         </div>
       </div>
-      
     </div>
     <div>
       <p v-if="possibilities?.total">Total Possibilities: {{ possibilities?.total }}</p>
@@ -49,8 +48,16 @@ const store = useSecretSantaListStore()
 
 const toast = useToast()
 const modal = useModal()
+const route = useRoute()
+const {isLoaded, isSignedIn} = useAuth()
 async function onSubmit(_event?: FormSubmitEvent<InputStateSchema>) {
-  modal.open(LoginCTA, { title: "Log in" })
+  if (isLoaded && isSignedIn) {
+    toast.add({
+      description:"save time"
+    })
+    return
+  }
+  modal.open(LoginCTA, { title: "Log in", redirectUrl: route.fullPath })
 }
 
 const { data: possibilities, execute: fetchPossibilities, error } = await useAsyncData('possibilities', () => store.getPossibilities(), {

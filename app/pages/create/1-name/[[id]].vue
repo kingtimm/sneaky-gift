@@ -5,7 +5,7 @@
 
     <UForm
 ref="name-input" :schema="nameInputSchema" :state="store.inputState" class="py-2 space-y-4"
-      @submit="navigateTo(surroundNav.nextUrl)">
+      @submit="emits('next')">
       <UFormField label="Name" name="name">
         <UInput ref="name-input" v-model="store.inputState.name" placeholder="Name your list" />
       </UFormField>
@@ -16,7 +16,8 @@ ref="name-input" :schema="nameInputSchema" :state="store.inputState" class="py-2
 <script setup lang="ts">
 import type { TabsItem } from '@nuxt/ui';
 
-defineProps<{ items: TabsItem[], index: number, surroundNav: { prevUrl: string, nextUrl: string } }>()
+defineProps<{ items: TabsItem[], index: number }>()
+const emits = defineEmits(['previous', 'next'])
 
 const store = useSecretSantaListStore()
 

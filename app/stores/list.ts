@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
-import { z } from 'zod'
+import { beforeHydrateClear } from '~/utils/persistedStorage'
 
 export const useSecretSantaListStore = defineStore('secretSantaList', () => {
-
   const _defaultState = () => {
     return {
       name: '',
@@ -59,9 +58,9 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
   }
 
   const exclusions = computed(() => {
-    const result: [number, number][] = []  
+    const result: [number, number][] = []
 
-    for (const [memberIndex, member] of inputState.value.members.entries()){
+    for (const [memberIndex, member] of inputState.value.members.entries()) {
       for (const exclusionIndex of member.exclusions) {
         if (inputState.value.members[exclusionIndex]) {
           result.push([
@@ -74,14 +73,30 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     return result
   })
 
-  const exclusionsAsName = computed(()=> {
-    return exclusions.value.map((row)=> {
-        return [
-          inputState.value.members[row[0]]?.name,
-          inputState.value.members[row[1]]?.name,
-        ]
+  const exclusionsAsName = computed(() => {
+    return exclusions.value.map((row) => {
+      return [
+        inputState.value.members[row[0]]?.name,
+        inputState.value.members[row[1]]?.name,
+      ]
     })
   })
+
+  function getMemberListForInsert() {
+    return inputState.value.members.map((member, index) => {
+      return {
+        position: index,
+        ...member
+      }
+    })
+  }
+
+  function getSavePostData() {
+    return {
+      name: inputState.value.name,
+      members: getMemberListForInsert()
+    }
+  }
 
   return {
     inputState,
@@ -91,8 +106,13 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     exclusions,
     exclusionsAsName,
     reset,
-    currentScenario
+    currentScenario,
+    getSavePostData,
   }
 }, {
-  persist: true
+  persist: {
+    storage: optInCookies(),
+    beforeHydrate: beforeHydrateClear
+  },
 })
+

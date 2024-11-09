@@ -35,6 +35,7 @@ variant="soft" label="Remove"
 import type { TabsItem } from '@nuxt/ui';
 
 defineProps<{ items: TabsItem, index: number }>()
+const emits = defineEmits(['previous', 'next'])
 
 const store = useSecretSantaListStore()
 const {inputState} = storeToRefs(store)
