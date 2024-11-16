@@ -2,12 +2,12 @@
 import type { NavigationMenuItem } from '@nuxt/ui';
 import TheLogo from './TheLogo.vue';
 
-const menuItems = [
+const menuItems = ref([
   [{
     label: 'Home',
     to: '/'
   }]
-] satisfies NavigationMenuItem[][]
+] satisfies NavigationMenuItem[][])
 
 const authMenuItems = [{
   label: 'Lists',
@@ -15,29 +15,26 @@ const authMenuItems = [{
   icon: 'i-heroicons-numbered-list'
 }] satisfies NavigationMenuItem[]
 
-const menuItemsWithAuthed = computed(()=> {
-  const auth = useAuth()
-  if (auth.isLoaded && auth.isSignedIn) {
-    const combinedList = [...menuItems]
-    combinedList[0]?.push(...authMenuItems)
-    return combinedList 
-  } else {
-    return menuItems
+const { isSignedIn, } = useAuth()
+
+watch([isSignedIn], () => {
+  if (isSignedIn && menuItems.value[0]) {
+    menuItems.value[0].push(...authMenuItems)
   }
-})
+}, { immediate: true })
 
 </script>
 
 <template>
   <div class='flex items-center p-2 sticky justify-between'>
     <TheLogo class="w-1/5"/>
-    <!-- <UNavigationMenu :items="menuItemsWithAuthed" class="justify-center" /> -->
+     <UNavigationMenu :items="menuItems" class="justify-center" />
     <div class="w-1/5 flex justify-end">
       <ClientOnly>
         <SignedOut>
-          <SignInButton v-slot="props" mode="modal" class="cursor-pointer"> 
+          <SignInButton v-slot="props" mode="modal" class="cursor-pointer">
             <UButton v-bind="props" label="Sign In" />
-          </SignInButton> 
+          </SignInButton>
         </SignedOut>
         <SignedIn>
           <UserButton/>

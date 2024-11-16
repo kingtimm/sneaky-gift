@@ -30,7 +30,7 @@ v-if="store.currentScenario[i] !== undefined"
       <p v-if="possibilities?.total">Total Possibilities: {{ possibilities?.total }}</p>
     </div>
     <Teleport defer to="#create-controls">
-      <UButton type='submit' label="Save" @click="onSubmit()" />
+      <UButton type='submit' :loading="asyncStatus === 'loading'" label="Save" @click="onSubmit()" />
     </Teleport>
 
   </UContainer>
@@ -41,6 +41,7 @@ v-if="store.currentScenario[i] !== undefined"
 <script setup lang="ts">
 import type { FormSubmitEvent, TabsItem } from '@nuxt/ui';
 import LoginCTA from '~/components/modals/LoginCTA.vue';
+import type { ListInsertSchemaType } from '~~/shared/types/lists';
 
 defineProps<{ items: TabsItem, index: number }>()
 
@@ -52,9 +53,7 @@ const route = useRoute()
 const {isLoaded, isSignedIn} = useAuth()
 async function onSubmit(_event?: FormSubmitEvent<InputStateSchema>) {
   if (isLoaded && isSignedIn) {
-    toast.add({
-      description:"save time"
-    })
+    createList(store.getSavePostData())
     return
   }
   modal.open(LoginCTA, { title: "Log in", redirectUrl: route.fullPath })
@@ -72,5 +71,20 @@ watch(error, () => {
     })
   }
 })
+
+const {
+  mutate: createList,
+  status,
+  asyncStatus,
+  error: createListError
+} = useMutation({
+  mutation: (list: ListInsertSchemaType) => {
+    return $fetch('/api/lists', {
+      method: 'POST',
+      body: list
+    })
+  }
+})
+
 
 </script>

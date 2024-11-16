@@ -44,6 +44,29 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     currentScenario.value = []
   })
 
+  const fetchFn = useRequestFetch()
+
+  // create a new 'useListById' function that takes id and returns {id, ...query}
+  async function fetchListById(id: string) {
+    const {data, ...rest} = useQuery({
+      key: ['list'],
+      query: () => fetchFn(`/api/lists/${id}`),
+    })
+
+    console.log('data', data)
+
+    if (data.value) {
+      inputState.value.name = data.value?.name
+      inputState.value.members = data.value?.members.map(row => {
+        return {
+        'name': row.name!, 'exclusions': row.exclusions
+        }
+      })
+      currentScenario.value = JSON.parse(data.value?.currentScenario)
+    }
+    return {data, ...rest}
+  }
+
   function shouldDisable(step: number) {
     // return True to disable
     const stepsPrerequisites: (() => boolean)[] = [
@@ -94,8 +117,9 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
   function getSavePostData() {
     return {
       name: inputState.value.name,
-      members: getMemberListForInsert()
-    }
+      members: getMemberListForInsert(),
+      currentScenario: currentScenario.value
+    } satisfies ListInsertSchemaType
   }
 
   return {
@@ -108,6 +132,7 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     reset,
     currentScenario,
     getSavePostData,
+    fetchListById
   }
 }, {
   persist: {

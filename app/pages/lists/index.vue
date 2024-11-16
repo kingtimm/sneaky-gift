@@ -13,6 +13,12 @@ const inputState = reactive<Partial<Schema>>({
   name: undefined
 })
 
+const fetchFn = useRequestFetch()
+
+const { data: lists, refresh, isLoading } = useQuery({
+  key: ['lists'],
+  query: () => fetchFn('/api/lists'),
+})
 
 const toast = useToast()
 async function onSubmit(_event: FormSubmitEvent<Schema>) {
@@ -21,16 +27,24 @@ async function onSubmit(_event: FormSubmitEvent<Schema>) {
   await refresh()
 }
 
-const {data: lists, refresh} = await useLazyFetch('/api/lists')
-
-
 </script>
 
 <template>
   <div>
     <h1 class="text-xl">Your Lists</h1>
-    <div v-for="item, index in lists" :key='index'>
-      {{item.name}}
+    <p v-if="isLoading">loading</p>
+    <div v-else v-for="(item, index) in lists" :key='index'>
+      <UCard>
+        <template #header>
+          {{ item.name }}
+        </template>
+
+        {{ item.members }} members
+
+        <template #footer>
+          <UButton :to="`/create/1-name/${item.id}`" icon="i-heroicons-pencil" label="Edit"></UButton>
+        </template>
+      </UCard>
     </div>
     <h1 class="text-xl">Add New</h1>
     <UForm :schema="schema" :state="inputState" class="space-y-4" @submit="onSubmit">

@@ -37,7 +37,15 @@ export const ExclusionRowSchema = z.array(
 
 
   export const MemberInsertSchema = z.object({
-    name: ListMemberZSchema.pick({'name': true}),
-    exclusions: ListMemberZSchema.pick({'exclusions': true}),
-    position: z.number()
-  })
+    position: z.number(),
+    id: z.string().optional()
+  }).merge(ListMemberZSchema.pick({'name': true, 'exclusions': true}))
+
+  export const ListInsertSchema = ListInsertShape.pick({name: true}).merge(z.object({
+    members: z.array(MemberInsertSchema),
+    createdDate: z.date().optional(),
+    currentScenario: z.array(z.number())
+  }))
+
+  export type ListInsertSchemaType = z.infer<typeof ListInsertSchema>
+  export type MemberInsertSchemaType = z.infer<typeof MemberInsertSchema>

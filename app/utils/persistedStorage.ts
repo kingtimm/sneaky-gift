@@ -30,7 +30,7 @@ function cookies(options: CookiesStorageOptions = {}): StorageLike {
 }
 
 export function optInCookies(options: CookiesStorageOptions = {}): StorageLike {
-  const cookieStorage = cookies(options) 
+  const cookieStorage = cookies(options)
   return {
     getItem: (key) => {
       const shouldPersist = useState('shouldPersist')
@@ -51,7 +51,6 @@ export function optInCookies(options: CookiesStorageOptions = {}): StorageLike {
 
 export function beforeHydrateClear(ctx: PiniaPluginContext) {
   const shouldPersist = useState('shouldPersist')
-  console.log('will persist?: ', shouldPersist.value)
   if (!shouldPersist.value) {
     const cookie = useCookie(ctx.store.$id)
     cookie.value = null
