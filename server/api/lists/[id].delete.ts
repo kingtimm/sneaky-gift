@@ -12,8 +12,7 @@ export default defineEventHandler(async (evt) => {
   const ListDeleteShape = z.object({'id': z.string()})
 
   const parse = ListDeleteShape.parse
-  const result = await readValidatedBody(evt, parse)
-  const { id } = getRouterParams(evt)
+  const {id} = await getValidatedRouterParams(evt, parse)
 
   return deleteList(id, userId)
 })

@@ -27,9 +27,17 @@ async function onSubmit(_event: FormSubmitEvent<Schema>) {
   await refresh()
 }
 
-const { data:deleteList } = useMutation({
-  mutation: (id: string) => fetchFn(`/api/lists/${id}`),
-  onSettled: () => refresh()
+const { mutate:deleteListItem } = useMutation({
+  mutation: (id: string) => fetchFn(`/api/lists/${id}`, {
+    method: 'delete',
+  }),
+  onSettled: () => {
+    refresh()
+    toast.add({
+      title: `Deleted`,
+      description: ''
+    })
+  }
 })
 
 </script>
@@ -52,7 +60,7 @@ const { data:deleteList } = useMutation({
         <template #footer>
           <div class="flex gap-2">
 
-          <UButton @click="deleteList(item.id)" icon="i-lucide-trash" label="Delete"></UButton>
+          <UButton @click="deleteListItem(item.id)" icon="i-lucide-trash" label="Delete"></UButton>
           <UButton :to="`/create/1-name/${item.id}`" icon="i-lucide-pencil" label="Edit"></UButton>
           </div>
         </template>
