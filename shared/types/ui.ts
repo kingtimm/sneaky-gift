@@ -8,7 +8,7 @@ export interface TabbedNavigationPageItem extends NavigationMenuItem {
 export interface CreateFlowProps {
   items: TabbedNavigationPageItem[],
   index: number,
-  'page-key': (route: RouteLocationNormalizedLoadedGeneric) => string,
+  pageKey: (route: RouteLocationNormalizedLoadedGeneric) => string,
   onNext?: () => void,
   onPrevious?: () => void,
 }

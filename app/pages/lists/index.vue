@@ -27,14 +27,22 @@ async function onSubmit(_event: FormSubmitEvent<Schema>) {
   await refresh()
 }
 
+const { data:deleteList } = useMutation({
+  mutation: (id: string) => fetchFn(`/api/lists/${id}`),
+  onSettled: () => refresh()
+})
+
 </script>
 
 <template>
-  <div>
+  <div class="space-y-4">
+    <div class="flex gap-x-2">
     <h1 class="text-xl">Your Lists</h1>
+    <UButton type='submit' label="New List" icon="i-lucide-plus" to="/create" />
+    </div>
     <p v-if="isLoading">loading</p>
-    <div v-else v-for="(item, index) in lists" :key='index'>
-      <UCard>
+    <div v-else class="flex gap-2">
+      <UCard  v-for="(item, index) in lists" :key='index'>
         <template #header>
           {{ item.name }}
         </template>
@@ -42,16 +50,13 @@ async function onSubmit(_event: FormSubmitEvent<Schema>) {
         {{ item.members }} members
 
         <template #footer>
-          <UButton :to="`/create/1-name/${item.id}`" icon="i-heroicons-pencil" label="Edit"></UButton>
+          <div class="flex gap-2">
+
+          <UButton @click="deleteList(item.id)" icon="i-lucide-trash" label="Delete"></UButton>
+          <UButton :to="`/create/1-name/${item.id}`" icon="i-lucide-pencil" label="Edit"></UButton>
+          </div>
         </template>
       </UCard>
     </div>
-    <h1 class="text-xl">Add New</h1>
-    <UForm :schema="schema" :state="inputState" class="space-y-4" @submit="onSubmit">
-      <UFormField label="Name" name="name">
-        <UInput v-model="inputState.name" />
-      </UFormField>
-      <UButton type='submit' label="New List" icon="i-heroicons-plus-circle" />
-    </UForm>
   </div>
 </template>

@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "75ddde69-5f40-4661-ae96-4c4f99d4b6b6",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "e763423f-5976-4f9a-b39c-c8719b8f1db2",
+  "prevId": "75ddde69-5f40-4661-ae96-4c4f99d4b6b6",
   "tables": {
     "lists": {
       "name": "lists",
@@ -147,7 +147,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "membershipToList_list_lists_id_fk": {
@@ -160,7 +160,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },

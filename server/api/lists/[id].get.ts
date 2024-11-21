@@ -1,6 +1,6 @@
 import { getAuth } from "vue-clerk/server"
 import { eq, and, getTableColumns } from 'drizzle-orm'
-import type { member, membershipToList } from "~~/server/database/schema";
+import type { members, membershipToList } from "~~/server/database/schema";
 import { lists } from "~~/server/database/schema"
 import {flattenListResponse} from "~~/server/utils/lists";
 

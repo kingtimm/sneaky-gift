@@ -4,7 +4,7 @@
     <div class='flex items-center gap-4'>
       <UButton label="Show Pairings" @click="fetchPossibilities()" />
     </div>
-    
+
     <div class="flex gap-2">
       <div class="flex flex-col gap-2 font-thin w-full">
         <div
@@ -30,7 +30,8 @@ v-if="store.currentScenario[i] !== undefined"
       <p v-if="possibilities?.total">Total Possibilities: {{ possibilities?.total }}</p>
     </div>
     <Teleport defer to="#create-controls">
-      <UButton type='submit' :loading="asyncStatus === 'loading'" label="Save" @click="onSubmit()" />
+      <UButton v-if="!route.params.id" type='submit' :loading="asyncStatus === 'loading'" label="Save" @click="onSubmit()" />
+      <UButton v-else type='submit' :loading="updateListAsyncStatus === 'loading'" label="Save Updates" @click="onSubmit()" />
     </Teleport>
 
   </UContainer>
@@ -53,8 +54,17 @@ const route = useRoute()
 const {isLoaded, isSignedIn} = useAuth()
 async function onSubmit(_event?: FormSubmitEvent<InputStateSchema>) {
   if (isLoaded && isSignedIn) {
-    createList(store.getSavePostData())
-    return
+    const body = store.getSavePostData()
+    if (route.params.id) {
+      updateList(body)
+    } else {
+    createList(body)
+    }
+    toast.add({
+      title: 'Saved Successfully',
+      description: `Saved ${store.inputState.name}`
+    })
+    return navigateTo('/lists')
   }
   modal.open(LoginCTA, { title: "Log in", redirectUrl: route.fullPath })
 }
@@ -72,6 +82,8 @@ watch(error, () => {
   }
 })
 
+const fetchFn = useRequestFetch()
+
 const {
   mutate: createList,
   status,
@@ -79,12 +91,24 @@ const {
   error: createListError
 } = useMutation({
   mutation: (list: ListInsertSchemaType) => {
-    return $fetch('/api/lists', {
+    return fetchFn('/api/lists', {
       method: 'POST',
       body: list
     })
   }
 })
 
+const {
+  mutate: updateList,
+  asyncStatus: updateListAsyncStatus,
+  error: updateListError
+} = useMutation({
+  mutation: (list: ListInsertSchemaType) => {
+    return fetchFn(`/api/lists/${route.params.id}`, {
+      method: 'patch',
+      body: list,
+    })
+  }
+})
 
 </script>

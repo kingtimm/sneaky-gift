@@ -27,7 +27,7 @@ variant="soft" label="Remove"
         </div>
       </div>
     </div>
-    
+
   </div>
 </template>
 
@@ -38,8 +38,9 @@ defineProps<{ items: TabsItem, index: number }>()
 const emits = defineEmits(['previous', 'next'])
 
 const store = useSecretSantaListStore()
-const {inputState} = storeToRefs(store)
 const toast = useToast()
+
+const { inputState, currentScenario } = storeToRefs(store)
 
 const listMemberInputRef = useTemplateRef('memberInput')
 const listMemberInputSchema = ListMemberZSchema.pick({ name: true }).refine(item => !store.inputState.members.some((row) => row.name === item.name), { message: "Must be a unique name" })
@@ -63,6 +64,12 @@ async function addMember() {
     title: 'Added',
     description: `${store.newMemberInputState.name} is added`
   })
+
+  // zero the current scenario
+  if (currentScenario.value.length !== inputState.value.members.length) {
+    currentScenario.value = []
+  }
+
   store.newMemberInputState.name = ""
   setTimeout(() => listMemberInputRef.value?.inputRef?.focus(), 100)
 }

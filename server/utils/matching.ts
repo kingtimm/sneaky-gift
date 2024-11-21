@@ -20,7 +20,7 @@ export function getPermutations<T>(arr: T[]): T[][] {
 
     for (const perm of perms) {
       const candidate = [current, ...perm]
-      result.push(candidate);     
+      result.push(candidate);
     }
   }
   return result;
@@ -35,7 +35,7 @@ export function getAllPossibilities(array: number[], exclusions?: Exclusions): n
       // skip if there's a fixed point
       const isFixedPoint = item === perm[index]
       let isExcluded = false
-      
+
       // skip if there's an exclusion
       if (exclusions && exclusions[index]) {
         isExcluded = exclusions[index].some((exItem, _exIndex)=> exItem === perm[index])
@@ -44,7 +44,6 @@ export function getAllPossibilities(array: number[], exclusions?: Exclusions): n
     })
     return !isRejectable
   })
-  console.log('possibilities ', possibilities)
   if (possibilities.length === 0) {
     throw createError({
       statusCode: 400,

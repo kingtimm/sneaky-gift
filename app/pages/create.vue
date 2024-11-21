@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CreateNavigation class="max-sm:hidden" :items="items" :active-tab="activeTab" />
+    <CreateNavigation class="max-sm:hidden" :items="items" :active-tab="activeTab"/>
     <NuxtPage v-bind="pageProps" />
     <div id="create-controls" class="flex justify-between space-x-4 mt-4">
       <div class="flex gap-2">
@@ -20,7 +20,7 @@ v-model:open="open" title="Start Over" description="Press Delete to erase and st
       </div>
       <UButton
 v-if="items[activeTab]?.controls === 'both' || items[activeTab]?.controls === 'next-only'"
-        variant="outline" label="Next" :disabled="store.shouldDisable(activeTab + 1).value" @click="nextTab()" />
+        variant="outline" label="Next" :disabled="shouldDisable(activeTab + 1).value" @click="nextTab()" />
     </div>
   </div>
 </template>
@@ -28,6 +28,7 @@ v-if="items[activeTab]?.controls === 'both' || items[activeTab]?.controls === 'n
 <script setup lang="ts">
 import createFlow from '~/middleware/createFlow';
 import type { CreateFlowProps, TabbedNavigationPageItem } from '~~/shared/types/ui';
+import useCreateFlowController from "~/composables/createFlowController";
 
 const open = ref(false)
 
@@ -38,83 +39,32 @@ definePageMeta({
 });
 
 const store = useSecretSantaListStore()
-const items = ref([
-  {
-    label: 'Start',
-    disabled: false,
-    to: '/create/1-name/',
-    controls: 'next-only'
-  },
-  {
-    label: 'Members',
-    disabled: true,
-    to: '/create/2-members/',
-    controls: 'both'
-  },
-  {
-    label: 'Handling',
-    disabled: true,
-    to: '/create/3-handling/',
-    controls: 'both'
-  },
-  {
-    label: 'Complete',
-    disabled: true,
-    to: '/create/4-complete/',
-    controls: 'previous-only'
-  },
-] satisfies TabbedNavigationPageItem[])
 
-// tab logic
-const activeTab = ref(0)
-const nextUrl = computed(() => items.value[activeTab.value + 1]?.to)
-const prevUrl = computed(() => items.value[activeTab.value - 1]?.to)
 
-const { id } = useRoute().params
+// when this route is an id
+const route = useRoute()
+const { id } = route.params
+const { isSignedIn } = useAuth()
 
-if(!id && useAuth().isSignedIn) {
+if(!id && isSignedIn.value) {
   await store.reset()
-} else if(id && useAuth().isSignedIn) {
-  const { data } = await store.fetchListById(id.toString())
+} else if(id && isSignedIn.value) {
+  await store.fetchListById(id.toString())
 }
 
-function nextTab() {
-  return navigateTo(nextUrl.value)
-}
-function previousTab() {
-  return navigateTo(prevUrl.value)
-}
+// get the items list
+const { nextTab, previousTab, nextUrl, prevUrl, activeTab, items, shouldDisable} = useCreateFlowController()
 
+// props to pass to nested pages
 const pageProps = {
   onPrevious: previousTab,
   onNext: nextTab,
   index: activeTab.value,
   items: items.value,
-  'page-key': (route) => route.fullPath
+  pageKey: (route) => route.fullPath
 
 } satisfies CreateFlowProps
 
-const route = useRoute()
-
-watch([route], () => {
-  const index = items.value.findIndex(row => {
-    return route.path.startsWith(row.to)
-  })
-
-  // update the tab
-  activeTab.value = index
-}, {immediate: true})
-
-// tab disabling
-watch([store.inputState], async () => {
-  for (const [index, item] of items.value.entries()) {
-    item.disabled = store.shouldDisable(index).value
-    if (id && !item.to.includes(id.toString())){
-      item.to = item.to + `${id}`
-    }
-    await nextTick()
-  }
-}, { immediate: true })
 
 async function handleDelete() {
   await store.reset()

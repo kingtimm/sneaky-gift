@@ -10,10 +10,10 @@ export const ListMemberZSchema = z.object({
   name: z.string()
     .min(1, "Name must be at least 1 character")
     .max(35, "Name must be fewer than 36 Characters"),
-  exclusions: z.array(z.number())
+  exclusions: z.array(z.number()),
+  id: z.string().optional()
 })
 
-// TODO: move this to types?
 export const StateZSchema = z.object({
   name: z.string()
     .min(2, "Name must be at least 2 characters")

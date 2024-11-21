@@ -49,17 +49,15 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
   // create a new 'useListById' function that takes id and returns {id, ...query}
   async function fetchListById(id: string) {
     const {data, ...rest} = useQuery({
-      key: ['list'],
+      key: () => ['lists', id],
       query: () => fetchFn(`/api/lists/${id}`),
     })
 
-    console.log('data', data)
-
     if (data.value) {
-      inputState.value.name = data.value?.name
-      inputState.value.members = data.value?.members.map(row => {
+      inputState.value.name = data.value.name
+      inputState.value.members = data.value.members.map(row => {
         return {
-        'name': row.name!, 'exclusions': row.exclusions
+        'name': row.name!, 'exclusions': JSON.parse(row.exclusions), id: row.id
         }
       })
       currentScenario.value = JSON.parse(data.value?.currentScenario)
@@ -67,18 +65,6 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     return {data, ...rest}
   }
 
-  function shouldDisable(step: number) {
-    // return True to disable
-    const stepsPrerequisites: (() => boolean)[] = [
-      () => false,
-      () => inputState.value.name === "" || !StateZSchema.pick({ name: true }).safeParse(inputState.value).success,
-      () => inputState.value.members.length <= 1,
-      () => inputState.value.members.length <= 1,
-    ]
-    const result = stepsPrerequisites[step] ??= () => false
-    return computed(result)
-
-  }
 
   const exclusions = computed(() => {
     const result: [number, number][] = []
@@ -126,7 +112,6 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     inputState,
     newMemberInputState,
     getPossibilities,
-    shouldDisable,
     exclusions,
     exclusionsAsName,
     reset,
