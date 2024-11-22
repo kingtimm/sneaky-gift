@@ -1,5 +1,5 @@
 <template>
-  <p class="text-xl font-bold">
+  <p class="text-2xl font-bold">
     {{ name }}
   </p>
 </template>
@@ -12,13 +12,20 @@ const names = [
   'Hermano',
   'Little Brother',
   'Big Sis',
-  'Boss',
+  'BFF',
   'Team mate',
   'Wingman',
   'Partner',
   'SO',
   'Doug',
-  'Carrie'
+  'Carrie',
+  'Ray',
+  'Homer',
+  'John',
+  'Lydia',
+  'Katherine',
+  'Grandma',
+  'Grandpa'
 ]
 
 const name = names[Math.floor(Math.random()*names.length)]

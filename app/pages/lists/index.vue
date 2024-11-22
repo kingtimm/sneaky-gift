@@ -1,3 +1,32 @@
+<template>
+  <div class="space-y-4">
+    <div class="flex gap-x-2">
+      <h1 class="text-xl">Your Lists</h1>
+      <UButton type='submit' label="New List" icon="i-lucide-plus" to="/create" />
+    </div>
+    <p v-if="isLoading">loading</p>
+    <div v-else class="flex gap-2">
+      <UCard  v-for="(item, index) in lists" :key='index'>
+        <template #header>
+          {{ item.name }}
+        </template>
+
+        {{ item.members }} members
+
+        <template #footer>
+          <div class="flex gap-2">
+
+            <UButton icon="i-lucide-trash" label="Delete" @click="deleteListItem(item.id)"/>
+            <UButton :to="`/create/1-name/${item.id}`" icon="i-lucide-pencil" label="Edit"/>
+          </div>
+        </template>
+      </UCard>
+    </div>
+    <NoListsYetAlert v-if="lists?.length === 0" />
+  </div>
+</template>
+
+
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui';
 import type { z } from 'zod'
@@ -15,7 +44,7 @@ const inputState = reactive<Partial<Schema>>({
 
 const fetchFn = useRequestFetch()
 
-const { data: lists, refresh, isLoading } = useQuery({
+const { data: lists, refresh, refetch, isLoading } = useQuery({
   key: ['lists'],
   query: () => fetchFn('/api/lists'),
 })
@@ -31,40 +60,14 @@ const { mutate:deleteListItem } = useMutation({
   mutation: (id: string) => fetchFn(`/api/lists/${id}`, {
     method: 'delete',
   }),
-  onSettled: () => {
-    refresh()
+  onSettled: async () => {
     toast.add({
       title: `Deleted`,
       description: ''
     })
+    await refetch()
   }
 })
 
 </script>
 
-<template>
-  <div class="space-y-4">
-    <div class="flex gap-x-2">
-    <h1 class="text-xl">Your Lists</h1>
-    <UButton type='submit' label="New List" icon="i-lucide-plus" to="/create" />
-    </div>
-    <p v-if="isLoading">loading</p>
-    <div v-else class="flex gap-2">
-      <UCard  v-for="(item, index) in lists" :key='index'>
-        <template #header>
-          {{ item.name }}
-        </template>
-
-        {{ item.members }} members
-
-        <template #footer>
-          <div class="flex gap-2">
-
-          <UButton @click="deleteListItem(item.id)" icon="i-lucide-trash" label="Delete"></UButton>
-          <UButton :to="`/create/1-name/${item.id}`" icon="i-lucide-pencil" label="Edit"></UButton>
-          </div>
-        </template>
-      </UCard>
-    </div>
-  </div>
-</template>

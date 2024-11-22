@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui';
 import TheLogo from './TheLogo.vue';
+import type { NavigationMenuItem } from "#ui/types";
 
 const defaultMenuItems =
   [] satisfies NavigationMenuItem[]
@@ -8,8 +8,12 @@ const defaultMenuItems =
 const authMenuItems = [{
   label: 'Lists',
   to: '/lists',
-  icon: 'i-heroicons-numbered-list'
-}] satisfies NavigationMenuItem[]
+},
+  {
+    label: 'About',
+    to: '/about',
+  },
+] satisfies NavigationMenuItem[]
 
 const { isSignedIn } = useAuth()
 
@@ -30,10 +34,10 @@ watch(isSignedIn, () => {
 </script>
 
 <template>
-  <div class='flex items-center p-2 sticky justify-between'>
+  <div class='max-w-2xl mx-auto flex items-center p-2 sticky justify-between'>
     <TheLogo class="w-1/5"/>
+    <div class="w-1/5 flex gap-4 justify-end">
    <UNavigationMenu :items="menuItems" class="justify-center"/>
-    <div class="w-1/5 flex justify-end">
       <ClientOnly>
         <SignedOut>
           <SignInButton v-slot="props" mode="modal" class="cursor-pointer">

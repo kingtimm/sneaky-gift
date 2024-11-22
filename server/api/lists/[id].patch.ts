@@ -1,5 +1,5 @@
 import { getAuth } from "vue-clerk/server"
-import { ListInsertSchema, ListInsertShape } from '~~/shared/types/lists'
+import { ListInsertSchema } from '~~/shared/types/lists'
 import type { InferInsertModel } from "drizzle-orm";
 import { randomUUID } from 'uncrypto'
 import {buildConflictUpdateColumns} from "~~/server/utils/drizzle";
@@ -23,6 +23,13 @@ export default defineEventHandler(async (evt) => {
     eq(tables.lists.owner, userId),
     eq(tables.lists.id, id)
   )).get()
+
+  if (!list) {
+    throw createError({
+      statusCode: 403,
+      statusMessage: 'Not Found',
+    })
+  }
 
   // list value
   const listValue = {

@@ -1,8 +1,8 @@
 <template>
   <UContainer class="flex flex-col gap-2">
-    <h1 class="mt-5 text-xl">Get Ready</h1>
     <div class='flex items-center gap-4'>
-      <UButton label="Show Pairings" @click="fetchPossibilities()" />
+    <h1 class="text-xl">Get Ready</h1>
+      <UButton label="Get Gift Pairings" icon="i-lucide-gift" @click="fetchPossibilities()" />
     </div>
 
     <div class="flex gap-2">
@@ -30,8 +30,8 @@ v-if="store.currentScenario[i] !== undefined"
       <p v-if="possibilities?.total">Total Possibilities: {{ possibilities?.total }}</p>
     </div>
     <Teleport defer to="#create-controls">
-      <UButton v-if="!route.params.id" type='submit' :loading="asyncStatus === 'loading'" label="Save" @click="onSubmit()" />
-      <UButton v-else type='submit' :loading="updateListAsyncStatus === 'loading'" label="Save Updates" @click="onSubmit()" />
+      <UButton v-if="!route.params.id" type='submit' :disabled="!shouldDisableSaveButton" :loading="asyncStatus === 'loading'" label="Save" @click="onSubmit()" />
+      <UButton v-else type='submit' :loading="updateListAsyncStatus === 'loading'" :disabled="!shouldDisableSaveButton" label="Save Updates" @click="onSubmit()" />
     </Teleport>
 
   </UContainer>
@@ -64,13 +64,17 @@ async function onSubmit(_event?: FormSubmitEvent<InputStateSchema>) {
       title: 'Saved Successfully',
       description: `Saved ${store.inputState.name}`
     })
-    return navigateTo('/lists')
+    return navigateTo('/lists/')
   }
   modal.open(LoginCTA, { title: "Log in", redirectUrl: route.fullPath })
 }
 
 const { data: possibilities, execute: fetchPossibilities, error } = await useAsyncData('possibilities', () => store.getPossibilities(), {
   immediate: false
+})
+
+const shouldDisableSaveButton = computed(()=>{
+  return (store.currentScenario.length === store.inputState.members.length) && store.currentScenario.length > 0
 })
 
 watch(error, () => {

@@ -21,7 +21,7 @@ function shouldShowName(index: number, active: boolean | undefined) {
 </script>
 
 <template>
-    <UNavigationMenu highlight :items="items" class="justify-center">
+    <UNavigationMenu highlight :items="items" class="justify-center mb-5">
       <template #item="{ index, active, item }">
         <div class="flex gap-1 items-center">
           <UBadge
@@ -29,7 +29,7 @@ function shouldShowName(index: number, active: boolean | undefined) {
           :variant="active === true ? 'outline': 'soft'">
           {{ index + 1 }}
         </UBadge>
-        
+
         <!-- <p v-if="shouldShowName(index, active)">{{ item.label }}</p> -->
         <p>{{ item.label }}</p>
         </div>

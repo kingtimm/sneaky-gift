@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useSeoMeta({
-  title: 'Secret Santa Is',
+  title: 'sneaky gifts',
   description: 'A Secret Santa App to share with friends'
 })
 </script>

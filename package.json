@@ -14,7 +14,7 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "@clerk/backend": "^1.17.0",
+    "@clerk/backend": "^1.17.1",
     "@formkit/auto-animate": "^0.8.2",
     "@nuxt/eslint": "^0.7.1",
     "@nuxt/fonts": "^0.10.2",
@@ -39,8 +39,8 @@
     "@nuxt/eslint-config": "^0.7.1",
     "@nuxt/test-utils": "^3.14.4",
     "@vue/test-utils": "^2.4.6",
-    "@vueuse/core": "^11.2.0",
-    "@vueuse/nuxt": "^11.2.0",
+    "@vueuse/core": "^11.3.0",
+    "@vueuse/nuxt": "^11.3.0",
     "drizzle-kit": "^0.28.1",
     "eslint": "^9.15.0",
     "happy-dom": "^15.11.6",

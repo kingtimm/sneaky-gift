@@ -9,7 +9,7 @@
         <div class="flex gap-3">
           <UInput ref='memberInput' v-model="store.newMemberInputState.name" placeholder="Who is on the list?" />
           <UButton
-label="Add" :disabled="!listMemberInputSchema.safeParse(store.newMemberInputState).success"
+            label="Add"
             @click="addMember" />
         </div>
       </UFormField>

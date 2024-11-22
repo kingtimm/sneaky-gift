@@ -1,8 +1,8 @@
 <template>
   <div>
     <TheHeader />
-    <div class="max-w-2xl p-8">
+    <UContainer class="max-w-2xl p-8">
       <slot />
-    </div>
+    </UContainer>
   </div>
 </template>
