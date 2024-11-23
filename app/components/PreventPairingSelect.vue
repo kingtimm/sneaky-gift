@@ -120,14 +120,16 @@ const state = reactive({
 </script>
 
 <template>
-  <UForm v-if="enoughMembers" :state="state" :schema="PreventPairingFormSchema" class="flex gap-3 py-3 items-end">
-    <UFormField label="Name 1" class="flex-1" name="leftValue">
-      <USelectMenu v-model="state.leftValue" class="w-full h-8" :items="leftArray" placeholder="Select a Name" />
+  <UForm v-if="enoughMembers" :state="state" :schema="PreventPairingFormSchema" class="flex gap-2 py-3 items-end w-full">
+    <div class="flex gap-2 flex-1 items-end">
+    <UFormField label="Name 1" name="leftValue" class="flex-1">
+      <USelectMenu v-model="state.leftValue" class="h-8 max-w-28 sm:w-full" :items="leftArray" placeholder="Select a Name" />
     </UFormField>
-    <PreventDirectionButton v-model="direction" class="" />
-    <UFormField label="Name 2" class="flex-1" name="rightValue">
-      <USelectMenu v-model="state.rightValue" class="w-full h-8" :items="rightArray" placeholder="Select a Name" />
+    <PreventDirectionButton v-model="direction" />
+    <UFormField label="Name 2" name="rightValue" class="flex-1">
+      <USelectMenu v-model="state.rightValue" class="h-8 max-w-28 sm:w-full" :items="rightArray" placeholder="Select a Name" />
     </UFormField>
-    <UButton label="Add Rule" :disabled="!PreventPairingFormSchema.safeParse(state).success" @click="addRule()" />
+    </div>
+    <UButton class="flex-0" label="Add" :disabled="!PreventPairingFormSchema.safeParse(state).success" @click="addRule()" />
   </UForm>
 </template>

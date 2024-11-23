@@ -18,6 +18,7 @@ export const StateZSchema = z.object({
   name: z.string()
     .min(2, "Name must be at least 2 characters")
     .max(30, "Name must be fewer than 30 characters"),
+  id: z.string().optional(),
   suggestedSpend: z.number(),
   members: z.array(ListMemberZSchema).refine(items => new Set(items).size === items.length, { message: "Must be a unique name" })
 })

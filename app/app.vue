@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useSeoMeta({
-  title: 'sneaky gifts',
+  title: 'sneaky gift',
   description: 'A Secret Santa App to share with friends'
 })
 </script>
@@ -32,6 +32,7 @@ useSeoMeta({
   --color-primary-950: var(--ui-color-primary-950);
   --font-family-display: "Lilita One", "sans-serif";
 }
+
 
 input[type="text"],
 input[type="number"],

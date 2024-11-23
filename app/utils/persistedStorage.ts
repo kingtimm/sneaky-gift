@@ -33,7 +33,7 @@ export function optInCookies(options: CookiesStorageOptions = {}): StorageLike {
   const cookieStorage = cookies(options)
   return {
     getItem: (key) => {
-      const shouldPersist = useState('shouldPersist')
+  const shouldPersist = useState('shouldPersist', ()=>true)
       if (shouldPersist.value) {
         return cookieStorage.getItem(key)
       } else {
@@ -41,7 +41,7 @@ export function optInCookies(options: CookiesStorageOptions = {}): StorageLike {
       }
     },
     setItem: (key, value) => {
-      const shouldPersist = useState('shouldPersist')
+  const shouldPersist = useState('shouldPersist', ()=>true)
       if (shouldPersist.value) {
         return cookieStorage.setItem(key, value)
       }
@@ -50,7 +50,8 @@ export function optInCookies(options: CookiesStorageOptions = {}): StorageLike {
 }
 
 export function beforeHydrateClear(ctx: PiniaPluginContext) {
-  const shouldPersist = useState('shouldPersist')
+  const shouldPersist = useState('shouldPersist', ()=>true)
+
   if (!shouldPersist.value) {
     const cookie = useCookie(ctx.store.$id)
     cookie.value = null

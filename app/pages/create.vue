@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col gap-2">
     <CreateNavigation class="max-sm:hidden" :items="items" :active-tab="activeTab"/>
     <NuxtPage v-bind="pageProps" />
     <div id="create-controls" class="flex justify-between space-x-4 mt-4">
@@ -13,8 +13,8 @@ v-model:open="open" title="Start Over" description="Press Delete to erase and st
           <UButton v-if="activeTab > 0" label="Start Over" icon="i-heroicons-trash" />
 
           <template #footer>
-            <UButton label="Cancel" color="neutral" variant="outline" @click="open = false" />
-            <UButton label="Delete" color="neutral" @click="handleDelete()" />
+            <UButton label="Cancel"  variant="outline" @click="open = false" />
+            <UButton label="Delete"  @click="handleDelete()" />
           </template>
         </UModal>
       </div>
@@ -22,6 +22,8 @@ v-model:open="open" title="Start Over" description="Press Delete to erase and st
 v-if="items[activeTab]?.controls === 'both' || items[activeTab]?.controls === 'next-only'"
         variant="outline" label="Next" :disabled="shouldDisable(activeTab + 1).value" @click="nextTab()" />
     </div>
+    <EditingListNotice />
+    <NotSavingNotice v-if="isPersisting"/>
   </div>
 </template>
 
@@ -32,19 +34,16 @@ import useCreateFlowController from "~/composables/createFlowController";
 
 const open = ref(false)
 
-const shouldPersist = useState('shouldPersist')
-
 definePageMeta({
   middleware: [createFlow],
 });
 
 const store = useSecretSantaListStore()
-
-
-// when this route is an id
-const route = useRoute()
-const { id } = route.params
+const { isPersisting } = storeToRefs(useUserEntitlementsStore())
+const { id } = useRoute().params
 const { isSignedIn } = useAuth()
+
+console.log('handing ', {id, isSignedIn})
 
 if(!id && isSignedIn.value) {
   await store.reset()

@@ -1,5 +1,5 @@
 <template>
-  <UContainer class="flex flex-col gap-2">
+  <div class="flex flex-col gap-2">
     <div class='flex items-center gap-4'>
     <h1 class="text-xl">Get Ready</h1>
       <UButton label="Get Gift Pairings" icon="i-lucide-gift" @click="fetchPossibilities()" />
@@ -34,7 +34,7 @@ v-if="store.currentScenario[i] !== undefined"
       <UButton v-else type='submit' :loading="updateListAsyncStatus === 'loading'" :disabled="!shouldDisableSaveButton" label="Save Updates" @click="onSubmit()" />
     </Teleport>
 
-  </UContainer>
+  </div>
 
 
 </template>

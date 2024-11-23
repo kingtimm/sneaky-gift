@@ -6,7 +6,8 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     return {
       name: '',
       suggestedSpend: 20,
-      members: [] as InputStateSchema["members"]
+      members: [] as InputStateSchema["members"],
+      id: ''
     }
   }
 
@@ -54,6 +55,7 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     })
 
     if (data.value) {
+      inputState.value.id = data.value.id
       inputState.value.name = data.value.name
       inputState.value.members = data.value.members.map(row => {
         return {
@@ -64,7 +66,6 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     }
     return {data, ...rest}
   }
-
 
   const exclusions = computed(() => {
     const result: [number, number][] = []

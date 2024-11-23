@@ -6,9 +6,7 @@
       <p v-else>{{  name  }}</p>
     </div>
     </div>
-    <div class="">
       <UButton class="h-20 rounded-r-xl rounded-l-none" v-bind="computedProps" @click="revealName()"/>
-    </div>
   </div>
 </template>
 
@@ -51,13 +49,12 @@ const computedProps = computed(()=>{
 .wipe {
   --wipe-position: 100%;
   --gradient-length: 20%;
-  -webkit-mask-image: linear-gradient(
+  mask-image: linear-gradient(
     to bottom right,
     black var(--wipe-position),
     transparent calc(var(--wipe-position) + var(--gradient-length)),
     transparent
   );
-
   transition: --wipe-position 600ms cubic-bezier(0, 0.55, 0.45, 1);
 }
 
