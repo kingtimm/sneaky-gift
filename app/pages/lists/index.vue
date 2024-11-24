@@ -28,33 +28,16 @@
 
 
 <script setup lang="ts">
-import type { FormSubmitEvent } from '@nuxt/ui';
-import type { z } from 'zod'
-import { ListInsertShape } from '~~/shared/types/lists';
-
-const schema = ListInsertShape.pick({
-  name: true
-})
-
-type Schema = z.output<typeof schema>
-
-const inputState = reactive<Partial<Schema>>({
-  name: undefined
-})
 
 const fetchFn = useRequestFetch()
 
-const { data: lists, refresh, refetch, isLoading } = useQuery({
+const { data: lists, refetch, isLoading } = useQuery({
   key: ['lists'],
   query: () => fetchFn('/api/lists'),
 })
 
 const toast = useToast()
-async function onSubmit(_event: FormSubmitEvent<Schema>) {
-  toast.add({ title: 'Success', description: 'Created new List', color: 'success' })
-  await $fetch('/api/lists', { method: 'post', body: inputState })
-  await refresh()
-}
+
 
 const { mutate:deleteListItem } = useMutation({
   mutation: (id: string) => fetchFn(`/api/lists/${id}`, {

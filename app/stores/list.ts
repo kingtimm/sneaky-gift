@@ -45,25 +45,38 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     currentScenario.value = []
   })
 
-  const fetchFn = useRequestFetch()
 
   // create a new 'useListById' function that takes id and returns {id, ...query}
   async function fetchListById(id: string) {
+    const fetchFn = useRequestFetch()
     const {data, ...rest} = useQuery({
       key: () => ['lists', id],
-      query: () => fetchFn(`/api/lists/${id}`),
+      query: () => fetchFn(`/api/lists/${id}`).then((res)=>{
+        if (res) {
+          const d = res
+          inputState.value.id = d.id
+          inputState.value.name = d.name
+          inputState.value.members = d.members.map(row => {
+            return {
+              'name': row.name!, 'exclusions': JSON.parse(row.exclusions), id: row.id
+            }
+          })
+          currentScenario.value = JSON.parse(d?.currentScenario)
+        }
+        return res
+
+      }),
     })
 
-    if (data.value) {
-      inputState.value.id = data.value.id
-      inputState.value.name = data.value.name
-      inputState.value.members = data.value.members.map(row => {
-        return {
-        'name': row.name!, 'exclusions': JSON.parse(row.exclusions), id: row.id
-        }
-      })
-      currentScenario.value = JSON.parse(data.value?.currentScenario)
-    }
+    // if (data.value) {
+    //   inputState.value.id = data.value.id
+    //   inputState.value.name = data.value.name
+    //   inputState.value.members = data.value.members.map(row => {
+    //     return {
+    //     'name': row.name!, 'exclusions': JSON.parse(row.exclusions), id: row.id
+    //     }
+    //   })
+    //   currentScenario.value = JSON.parse(data.value?.currentScenario)
     return {data, ...rest}
   }
 

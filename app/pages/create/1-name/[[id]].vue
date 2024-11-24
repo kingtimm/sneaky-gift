@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="mt-5 text-xl">Start your list</h1>
+    <h1 class="mt-5 text-xl">{{ title }}</h1>
     <p class="font-extralight">What is the name of the group? (e.g Work Friends, King Fam)</p>
 
     <UForm
@@ -20,6 +20,12 @@ defineProps<{ items: TabsItem[], index: number }>()
 const emits = defineEmits(['previous', 'next'])
 
 const store = useSecretSantaListStore()
+const { inputState } = storeToRefs(store)
+
+const title = computed(()=>{
+  return inputState.value.id ? `Editing your list` : `Start your list`
+})
+
 
 const nameInputSchema = StateZSchema.pick({ name: true })
 const nameInputRef = useTemplateRef('name-input')

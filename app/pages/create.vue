@@ -22,7 +22,6 @@ v-model:open="open" title="Start Over" description="Press Delete to erase and st
 v-if="items[activeTab]?.controls === 'both' || items[activeTab]?.controls === 'next-only'"
         variant="outline" label="Next" :disabled="shouldDisable(activeTab + 1).value" @click="nextTab()" />
     </div>
-    <EditingListNotice />
     <NotSavingNotice v-if="isPersisting"/>
   </div>
 </template>
@@ -38,21 +37,28 @@ definePageMeta({
   middleware: [createFlow],
 });
 
+const { isSignedIn } = useAuth()
 const store = useSecretSantaListStore()
 const { isPersisting } = storeToRefs(useUserEntitlementsStore())
 const { id } = useRoute().params
-const { isSignedIn } = useAuth()
 
-console.log('handing ', {id, isSignedIn})
+console.log('handing ', [id, isSignedIn.value])
 
+// this is a net new list authenticated
 if(!id && isSignedIn.value) {
   await store.reset()
 } else if(id && isSignedIn.value) {
+  // logged in and there is an id
   await store.fetchListById(id.toString())
 }
 
+// if you're not logged in and there is an id in the store
+if(isSignedIn.value === false && store.inputState.id) {
+  await store.reset()
+}
+
 // get the items list
-const { nextTab, previousTab, nextUrl, prevUrl, activeTab, items, shouldDisable} = useCreateFlowController()
+const { nextTab, previousTab, activeTab, items, shouldDisable} = useCreateFlowController()
 
 // props to pass to nested pages
 const pageProps = {
