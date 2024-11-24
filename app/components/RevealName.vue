@@ -1,12 +1,12 @@
 <template>
   <div class="flex items-center">
-    <div class="flex bg-neutral-800 w-full h-20 min-w-32 px-5 rounded-l-xl items-center justify-center text-white">
-    <div class="wipe" :style="computedStyle">
+    <div class="flex bg-neutral-200/90 dark:bg-neutral-800/90 w-full h-20 min-w-32 px-5 rounded-l-xl items-center justify-center text-white">
+    <div class="wipe text-black dark:text-white" :style="computedStyle">
       <RandomName v-if="!name"/>
       <p v-else>{{  name  }}</p>
     </div>
     </div>
-      <UButton class="h-20 rounded-r-xl rounded-l-none" v-bind="computedProps" @click="revealName()"/>
+      <UButton class="h-20 rounded-r-xl rounded-l-none opacity-80" v-bind="computedProps" @click="revealName()"/>
   </div>
 </template>
 

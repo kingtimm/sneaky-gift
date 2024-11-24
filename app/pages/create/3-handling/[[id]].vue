@@ -8,9 +8,9 @@
         <h1 class="mt-5 text-xl">Rules</h1>
         <div v-auto-animate class="py-3 grid gap-2 font-thin w-full">
           <div
-v-for="[member1, member2], i in store.exclusions" 
-:key="i" 
-            class="font-thin bg-neutral-800 p-2 flex justify-between items-center rounded">
+v-for="[member1, member2], i in store.exclusions"
+:key="i"
+            class="font-thin bg-neutral-100 dark:bg-neutral-800 p-2 flex justify-between items-center rounded">
             <div>
               <UBadge color="neutral" variant="outline">
                 {{ store.inputState.members[member1]?.name }}

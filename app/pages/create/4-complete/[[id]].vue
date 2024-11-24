@@ -10,12 +10,12 @@
         <div
 v-for="member, i in store.inputState.members" :key="i"
           class="font-thin flex justify-between items-center gap-2">
-          <div class="flex-1 bg-neutral-800 p-2 rounded">
+          <div class="flex-1 dark:bg-neutral-800 p-2 rounded">
             {{ member.name }}
           </div>
           <template v-if="store.currentScenario.length > 0">
             <UIcon class="" name="i-heroicons-arrow-right-20-solid" />
-            <div class="flex-1 font-thin bg-neutral-800 p-2 flex justify-between items-center rounded">
+            <div class="flex-1 font-thin dark:bg-neutral-800 p-2 flex justify-between items-center rounded">
               <div
 v-if="store.currentScenario[i] !== undefined"
                 class="flex items-center">

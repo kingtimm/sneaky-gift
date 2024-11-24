@@ -19,7 +19,7 @@
       <div v-auto-animate class="py-3 grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 font-thin w-full">
         <div
 v-for="member, i in store.inputState.members" :key="i"
-          class="font-thin bg-neutral-800 p-2 flex justify-between items-center rounded">
+          class="font-thin bg-neutral-100 dark:bg-neutral-800 p-2 flex justify-between items-center rounded">
           {{ member.name }}
           <UButton
 variant="soft" label="Remove"
