@@ -10,8 +10,7 @@
 
       <h1 class="text-3xl text-center text-tighter font-bold">Your sneaky gift goes to...</h1>
       <RevealName />
-  <div class="flex flex-col gap-4 rounded bg-neutral-800 p-3 items-center">
-
+  <div class="flex flex-col gap-4 rounded bg-neutral-800/80 p-3 items-center">
     <p class="text-center">Spread love and cheer among a <strong>group</strong> of generous gift givers this holiday season</p>
   </div>
     <UButton icon="i-heroicons-rocket-launch" class="" size="xl" to="/create">Organize a Group</UButton>

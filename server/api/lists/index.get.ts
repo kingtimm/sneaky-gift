@@ -21,7 +21,7 @@ export default defineEventHandler(async (evt) => {
     }
   }).then((result) => {
     return result.map( row => {
-      const listRow = {...flattenListResponse(row), members: row.membershipToList.length}
+      const listRow = {...flattenListResponse(row), membersLength: row.membershipToList.length}
       return listRow
     })
   })

@@ -123,11 +123,11 @@ const state = reactive({
   <UForm v-if="enoughMembers" :state="state" :schema="PreventPairingFormSchema" class="flex gap-2 py-3 items-end w-full">
     <div class="flex gap-2 flex-1 items-end">
     <UFormField label="Name 1" name="leftValue" class="flex-1">
-      <USelectMenu v-model="state.leftValue" class="h-8 max-w-28 sm:w-full" :items="leftArray" placeholder="Select a Name" />
+      <USelectMenu v-model="state.leftValue" class="h-8 w-full box-border" :items="leftArray" placeholder="Select a Name" />
     </UFormField>
     <PreventDirectionButton v-model="direction" />
     <UFormField label="Name 2" name="rightValue" class="flex-1">
-      <USelectMenu v-model="state.rightValue" class="h-8 max-w-28 sm:w-full" :items="rightArray" placeholder="Select a Name" />
+      <USelectMenu v-model="state.rightValue" class="h-8 w-full box-border" :items="rightArray" placeholder="Select a Name" />
     </UFormField>
     </div>
     <UButton class="flex-0" label="Add" :disabled="!PreventPairingFormSchema.safeParse(state).success" @click="addRule()" />
