@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { dark } from '@clerk/themes'
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-07-30',
   // Nuxt 4 directory structure and features
@@ -21,7 +23,9 @@ export default defineNuxtConfig({
     '@pinia/colada-nuxt',
   ],
   clerk: {
-    appearance: {}
+    appearance: {
+      baseTheme: dark
+    }
   },
   fonts: {
     defaults: {
