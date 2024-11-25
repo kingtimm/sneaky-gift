@@ -38,9 +38,16 @@ watch(isSignedIn, () => {
     <TheLogo class="w-1/5"/>
     <div class="flex gap-4 justify-end">
    <UNavigationMenu :items="menuItems" class="block max-sm:hidden"/>
-      <UDropdownMenu :items="menuItems"  >
-        <UButton icon="i-lucide-menu" color="neutral" variant="outline" class="sm:hidden" />
-      </UDropdownMenu>
+<!--      <UDropdownMenu :items="menuItems"  >-->
+<!--        <UButton icon="i-lucide-menu" color="neutral" variant="ghost" class="sm:hidden" />-->
+<!--      </UDropdownMenu>-->
+      <UDrawer title="Menu" direction="right" class="w-2/3">
+
+        <UButton icon="i-lucide-menu" color="neutral" variant="ghost" class="sm:hidden" />
+        <template #body>
+      <UNavigationMenu orientation="vertical" :items="menuItems"  />
+        </template>
+      </UDrawer>
       <ClientOnly>
         <SignedOut>
           <SignInButton v-slot="props" mode="modal" class="cursor-pointer">
