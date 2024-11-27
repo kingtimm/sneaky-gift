@@ -1,11 +1,13 @@
 <template>
   <div class="flex items-center">
     <div
-      class="flex bg-neutral-200/90 dark:bg-neutral-800/90 w-full h-20 min-w-32 px-5 rounded-l-xl items-center justify-center text-white">
-      <div class="wipe text-black dark:text-white" :style="computedStyle">
-        <RandomName v-if="!name"/>
-        <p v-else>{{ name }}</p>
-      </div>
+      class="flex bg-neutral-200/90 dark:bg-neutral-800/90 w-full h-20 min-w-48 px-5 rounded-l-xl items-center justify-center text-white">
+      <Transition appear>
+        <div v-if="revealed" class="text-black dark:text-white">
+          <RandomName v-if="!name "/>
+          <p v-else>{{ name }}</p>
+        </div>
+      </Transition>
     </div>
     <UButton class="h-20 rounded-r-xl rounded-l-none opacity-80" v-bind="computedProps" @click="revealName()"/>
   </div>
@@ -22,12 +24,6 @@ const revealed = defineModel<boolean>({default: false, required: false})
 function revealName() {
   revealed.value = !revealed.value
 }
-
-const computedStyle = computed(() => {
-  return {
-    '--wipe-position': !revealed.value ? 'calc(-1 * var(--gradient-length))' : '100%'
-  }
-})
 
 const computedProps = computed(() => {
   return {
@@ -47,7 +43,7 @@ const computedProps = computed(() => {
   initial-value: 100%;
 }
 
-.wipe {
+.v-enter-active {
   --wipe-position: 100%;
   --gradient-length: 20%;
   mask-image: linear-gradient(
@@ -57,6 +53,10 @@ const computedProps = computed(() => {
     transparent
   );
   transition: --wipe-position 600ms cubic-bezier(0, 0.55, 0.45, 1);
+}
+
+.v-enter-from {
+  --wipe-position: calc(-1 * var(--gradient-length));
 }
 
 </style>

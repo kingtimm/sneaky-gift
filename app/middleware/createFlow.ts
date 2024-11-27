@@ -10,7 +10,11 @@ export default defineNuxtRouteMiddleware((to, _from) => {
     return navigateTo('/create/1-name/')
   }
 
-  if (!to.params.id && !to.path.startsWith('/create/1-name/')) {
+  if (
+    !to.params.id &&
+    !to.path.startsWith('/create/1-name/') &&
+    !inputState.value.name
+  ) {
     return navigateTo('/create/1-name/')
   }
 
