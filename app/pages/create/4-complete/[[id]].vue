@@ -1,7 +1,9 @@
 <template>
   <div class="flex flex-col gap-2">
     <div class='flex items-center gap-4'>
-      <h1 class="text-xl">Get Ready</h1>
+      <h1 class="text-xl">All set</h1>
+    </div>
+    <div class="flex justify-between gap-2">
       <UButton label="Get Gift Pairings" icon="i-lucide-gift" @click="fetchPossibilities()"/>
       <UButton label="Show All" icon="i-lucide-eye" @click="allReveal = true"/>
     </div>
@@ -11,8 +13,8 @@
         <div
           v-for="(member, i) in store.inputState.members" :key="i.toString() + allReveal"
           class="font-thin flex justify-between items-center gap-2">
-          <div class="flex-1 dark:bg-neutral-800 p-2 rounded">
-            {{ member.name }}
+          <div class="flex-1 bg-[var(--ui-bg-elevated)] p-2 rounded">
+            <MemberInList :name="member.name" :member-id="member.id"/>
           </div>
           <template v-if="store.currentScenario.length > 0 && store.currentScenario[i] !== undefined">
 
@@ -49,6 +51,7 @@ import type {FormSubmitEvent, TabsItem} from '@nuxt/ui';
 import LoginCTA from '~/components/modals/LoginCTA.vue';
 import type {ListInsertSchemaType} from '~~/shared/types/lists';
 import RevealableName from "~/components/RevealableName.vue";
+import MemberInList from "~/pages/create/4-complete/MemberInList.vue";
 
 defineProps<{ items: TabsItem, index: number }>()
 

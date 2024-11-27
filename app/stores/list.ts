@@ -80,6 +80,10 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     return {data, ...rest}
   }
 
+  function getInviteLink(id: string, memberid: string) {
+    return `/invites/${id}/${memberid}`
+  }
+
   const exclusions = computed(() => {
     const result: [number, number][] = []
 
@@ -131,7 +135,8 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     reset,
     currentScenario,
     getSavePostData,
-    fetchListById
+    fetchListById,
+    getInviteLink
   }
 }, {
   persist: {

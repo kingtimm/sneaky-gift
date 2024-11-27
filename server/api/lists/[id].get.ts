@@ -5,14 +5,14 @@ import { lists } from "~~/server/database/schema"
 import {flattenListResponse} from "~~/server/utils/lists";
 
 export default defineEventHandler(async (evt) => {
-  const { userId } = getAuth(evt)
+  const {userId} = getAuth(evt)
 
   if (!userId) {
     setResponseStatus(evt, 401)
     return
   }
 
-  const { id } = getRouterParams(evt)
+  const {id} = getRouterParams(evt)
 
   const db = useDrizzle()
 
@@ -28,16 +28,18 @@ export default defineEventHandler(async (evt) => {
     }
 
   }).then((result) => {
-    if (!result) { return undefined }
+    if (!result) {
+      return undefined
+    }
     return flattenListResponse(result)
   })
 
-if (qbResult) {
-  return qbResult
-} else {
-  throw createError({
-    statusCode: 404,
-    message: `Cannot find a match for ${id}`
-  })
-}
+  if (qbResult) {
+    return qbResult
+  } else {
+    throw createError({
+      statusCode: 404,
+      message: `Cannot find a match for ${id}`
+    })
+  }
 })
