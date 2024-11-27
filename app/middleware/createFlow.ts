@@ -2,17 +2,16 @@ export default defineNuxtRouteMiddleware((to, _from) => {
 
   // go to the start if there isn't anything stored
   const listStore = useSecretSantaListStore()
-  const { isSignedIn } = useAuth()
-  console.log('from middleware', isSignedIn.value)
+  const {inputState} = storeToRefs(listStore)
+  const {isSignedIn} = useAuth()
+  console.log('from middleware', inputState.value.name)
 
   if (to.path === '/create' || to.path === '/create/') {
     return navigateTo('/create/1-name/')
   }
 
-  if (!to.path.startsWith('/create/1-name/')) {
-    if (listStore.inputState.name.length === 0) {
-      return navigateTo('/create/1-name/')
-    }
+  if (!to.params.id && !to.path.startsWith('/create/1-name/')) {
+    return navigateTo('/create/1-name/')
   }
 
   // go back to main page if attempting to add a url when not loggedin

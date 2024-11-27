@@ -3,26 +3,24 @@
     <div class='flex items-center gap-4'>
     <h1 class="text-xl">Get Ready</h1>
       <UButton label="Get Gift Pairings" icon="i-lucide-gift" @click="fetchPossibilities()" />
+      <UButton label="Show All" icon="i-lucide-eye" @click="allReveal = true" />
     </div>
 
     <div class="flex gap-2">
       <div class="flex flex-col gap-2 font-thin w-full">
         <div
-v-for="member, i in store.inputState.members" :key="i"
+v-for="(member, i) in store.inputState.members" :key="i.toString() + allReveal"
           class="font-thin flex justify-between items-center gap-2">
           <div class="flex-1 dark:bg-neutral-800 p-2 rounded">
             {{ member.name }}
           </div>
-          <template v-if="store.currentScenario.length > 0">
-            <UIcon class="" name="i-heroicons-arrow-right-20-solid" />
-            <div class="flex-1 font-thin dark:bg-neutral-800 p-2 flex justify-between items-center rounded">
-              <div
-v-if="store.currentScenario[i] !== undefined"
-                class="flex items-center">
-                {{ store.inputState.members[store.currentScenario[i]]!.name }}
-              </div>
-            </div>
-          </template>
+          <UIcon class="" name="i-heroicons-arrow-right-20-solid"/>
+
+          <RevealableName
+            v-if="store.currentScenario.length > 0 && store.currentScenario[i] !== undefined"
+            class="flex-1"
+            :trigger-all="allReveal"
+            :name="store.inputState.members[store.currentScenario[i]]!.name"/>
         </div>
       </div>
     </div>
@@ -43,10 +41,13 @@ v-if="store.currentScenario[i] !== undefined"
 import type { FormSubmitEvent, TabsItem } from '@nuxt/ui';
 import LoginCTA from '~/components/modals/LoginCTA.vue';
 import type { ListInsertSchemaType } from '~~/shared/types/lists';
+import RevealableName from "~/components/RevealableName.vue";
 
 defineProps<{ items: TabsItem, index: number }>()
 
 const store = useSecretSantaListStore()
+
+const allReveal = useState('allReveal', () => false)
 
 const toast = useToast()
 const modal = useModal()
@@ -86,6 +87,7 @@ watch(error, () => {
   }
 })
 
+
 const fetchFn = useRequestFetch()
 
 const {
@@ -109,7 +111,7 @@ const {
 } = useMutation({
   mutation: (list: ListInsertSchemaType) => {
     return fetchFn(`/api/lists/${route.params.id}`, {
-      method: 'patch',
+      method: 'PATCH',
       body: list,
     })
   }
