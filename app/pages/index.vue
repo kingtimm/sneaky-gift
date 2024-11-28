@@ -14,8 +14,8 @@
       <p class="text-center">Spread love and cheer among a <strong>group</strong> of generous gift givers this holiday
         season</p>
       <p>🎅🕎🎁</p>
+    <UButton trailing-icon="i-lucide-arrow-right" class="" size="xl" to="/create">Organize a Group</UButton>
     </div>
-    <UButton icon="i-heroicons-rocket-launch" class="" size="xl" to="/create">Organize a Group</UButton>
   </UContainer>
 </template>
 <script setup lang="ts">

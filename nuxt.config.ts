@@ -36,6 +36,10 @@ export default defineNuxtConfig({
       processCSSVariables: true,
     },
   },
+  routeRules: {
+    '/create/**': { ssr: false },
+    '/lists/**': { ssr: false },
+  },
 
   hub: {
     database: true,

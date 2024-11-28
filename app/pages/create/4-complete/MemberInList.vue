@@ -10,10 +10,7 @@ const props = defineProps<{
 
 const store = useSecretSantaListStore()
 
-const {inputState, currentScenario} = storeToRefs(store)
-
-const userEntitlements = useUserEntitlementsStore()
-const {isSignedIn} = storeToRefs(userEntitlements)
+const {isSignedIn} = useAuth()
 
 const route = useRoute()
 const {id} = route.params
@@ -34,9 +31,9 @@ const items = ref([
 
 const url = useRequestURL()
 
-const link = ref(url.protocol + "//" + url.host + store.getInviteLink(id, props.memberId))
+const link = ref(url.protocol + "//" + url.host + store.getInviteLink(id!, props.memberId))
 
-const { copy, copied } = useClipboard(link)
+const { copy, copied } = useClipboard(link.value)
 
 const toast = useToast()
 
