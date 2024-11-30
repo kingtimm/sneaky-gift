@@ -39,6 +39,7 @@ definePageMeta({
 
 const { isSignedIn } = useAuth()
 const store = useSecretSantaListStore()
+console.log('store is ', store)
 const { isPersisting } = storeToRefs(useUserEntitlementsStore())
 const { id } = useRoute().params
 

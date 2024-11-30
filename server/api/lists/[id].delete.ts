@@ -1,5 +1,6 @@
 import {getAuth} from "vue-clerk/server";
 import { z } from "zod";
+import {deleteList} from "~~/server/utils/lists";
 
 export default defineEventHandler(async (evt) => {
   const { userId } = getAuth(evt)

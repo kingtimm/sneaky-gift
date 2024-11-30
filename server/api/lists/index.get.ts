@@ -1,6 +1,6 @@
 import {getAuth} from "vue-clerk/server"
-import {membershipToList} from "~~/server/database/schema";
 import {flattenListResponse} from "~~/server/utils/lists";
+import { useDrizzle, eq, tables } from "~~/server/utils/drizzle";
 
 export default defineEventHandler(async (evt) => {
   const {userId} = getAuth(evt)

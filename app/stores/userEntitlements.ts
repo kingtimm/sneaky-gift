@@ -12,7 +12,7 @@ export const useUserEntitlementsStore = defineStore('userEntitlements', () => {
 
   return {
     isPersisting: shouldPersist,
-    isSignedIn,
-    id
+    // isSignedIn,
+    // id
   }
 })

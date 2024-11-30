@@ -3,6 +3,8 @@ import { eq, and, getTableColumns } from 'drizzle-orm'
 import type { members, membershipToList } from "~~/server/database/schema";
 import { lists } from "~~/server/database/schema"
 import {flattenListResponse} from "~~/server/utils/lists";
+import { useDrizzle, tables } from "~~/server/utils/drizzle";
+
 
 export default defineEventHandler(async (evt) => {
   const {userId} = getAuth(evt)

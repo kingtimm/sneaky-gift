@@ -1,5 +1,7 @@
 import {membershipToList} from "~~/server/database/schema";
 import {getAuth} from "vue-clerk/server";
+import { useDrizzle, and, eq, tables } from "~~/server/utils/drizzle";
+
 
 export default defineEventHandler(async (evt) => {
   const {userId} = getAuth(evt)
@@ -16,7 +18,7 @@ export default defineEventHandler(async (evt) => {
   const result = await db.select().from(tables.membershipToList).where(
   and(
     eq(membershipToList.list, list),
-    eq(membershipToList.member, member)
+    eq(membershipToList.memberId, member)
   )
   ).innerJoin(tables.lists, eq(tables.membershipToList.list, tables.lists.id)).where(eq(tables.lists.owner, userId)).innerJoin(tables.members, eq(tables.members.id, tables.membershipToList.memberId)).get()
 

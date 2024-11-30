@@ -1,9 +1,10 @@
 <template>
   <div class="flex items-center">
     <div
-      class="flex bg-neutral-200/90 dark:bg-neutral-800/90 w-full h-20 min-w-48 px-5 rounded-l-xl items-center justify-center text-white">
-      <Transition appear>
-        <div v-if="revealed" class="text-black dark:text-white">
+      class=" flex h-20 min-w-48  items-center justify-center text-white">
+      <Transition appear mode="out-in">
+        <div v-if="!revealed" class="present-background rounded-l-xl w-full h-full"/>
+        <div v-else class="text-black dark:text-white">
           <RandomName v-if="!name "/>
           <p v-else>{{ name }}</p>
         </div>
@@ -15,11 +16,11 @@
 
 <script setup lang="ts">
 
-defineProps<{
+const props = defineProps<{
   name?: string
 }>()
 
-const revealed = defineModel<boolean>({default: false, required: false})
+const revealed = useState(()=> false)
 
 function revealName() {
   revealed.value = !revealed.value
@@ -59,4 +60,17 @@ const computedProps = computed(() => {
   --wipe-position: calc(-1 * var(--gradient-length));
 }
 
+.present-background {
+  --stripe1: var(--ui-color-primary-950);
+  --stripe2: var(--color-white);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--stripe1),
+    var(--stripe1) 10px,
+    var(--stripe2) 10px,
+    var(--stripe2) 20px
+  );
+}
+
 </style>
+

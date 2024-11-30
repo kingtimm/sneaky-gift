@@ -2,9 +2,7 @@ export default defineNuxtRouteMiddleware((to, _from) => {
 
   // go to the start if there isn't anything stored
   const listStore = useSecretSantaListStore()
-  const {inputState} = storeToRefs(listStore)
   const {isSignedIn} = useAuth()
-  console.log('from middleware', inputState.value.name)
 
   if (to.path === '/create' || to.path === '/create/') {
     return navigateTo('/create/1-name/')
@@ -13,7 +11,7 @@ export default defineNuxtRouteMiddleware((to, _from) => {
   if (
     !to.params.id &&
     !to.path.startsWith('/create/1-name/') &&
-    !inputState.value.name
+    !listStore.inputState.name
   ) {
     return navigateTo('/create/1-name/')
   }

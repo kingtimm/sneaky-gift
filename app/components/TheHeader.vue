@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TheLogo from './TheLogo.vue';
-import type { NavigationMenuItem } from "#ui/types";
+import type {NavigationMenuItem} from "#ui/types";
 
 const defaultMenuItems =
   [{
@@ -15,20 +15,31 @@ const authMenuItems = [{
 
 ] satisfies NavigationMenuItem[]
 
-const { isSignedIn } = useAuth()
-
-const getMenuItems = ()=>{
-  if (isSignedIn.value) {
-    return [...authMenuItems, ...defaultMenuItems, ]
-  } else {
-    return defaultMenuItems
-  }
+function selectHandler() {
+  return drawerOpen.value = false
 }
-const menuItems = useState('menu-items', getMenuItems)
 
+const {isSignedIn} = useAuth()
+
+const getMenuItems = () => {
+  let items: NavigationMenuItem[] = defaultMenuItems
+  if (isSignedIn.value) {
+    items = [...authMenuItems, ...defaultMenuItems]
+  }
+  return items.map((row) => {
+    return {
+      onSelect() {selectHandler()},
+      ...row
+    }
+  })
+}
+
+const menuItems = ref(getMenuItems())
+
+const drawerOpen = ref(false)
 
 watch(isSignedIn, () => {
- menuItems.value = getMenuItems()
+  menuItems.value = getMenuItems()
 })
 
 </script>
@@ -37,21 +48,18 @@ watch(isSignedIn, () => {
   <div class='max-w-2xl mx-auto flex items-center p-2 sticky justify-between'>
     <TheLogo class="w-1/5"/>
     <div class="flex gap-4 justify-end">
-   <UNavigationMenu :items="menuItems" class="block max-sm:hidden"/>
-<!--      <UDropdownMenu :items="menuItems"  >-->
-<!--        <UButton icon="i-lucide-menu" color="neutral" variant="ghost" class="sm:hidden" />-->
-<!--      </UDropdownMenu>-->
-      <UDrawer title="Menu" direction="right" class="w-2/3">
+      <UNavigationMenu :items="menuItems" class="block max-sm:hidden"/>
+      <UDrawer v-model:open="drawerOpen" title="Menu" direction="right" class="w-2/3">
 
-        <UButton icon="i-lucide-menu" color="neutral" variant="ghost" class="sm:hidden" />
+        <UButton icon="i-lucide-menu" color="neutral" variant="ghost" class="sm:hidden" aria-text="Menu"/>
         <template #body>
-      <UNavigationMenu orientation="vertical" :items="menuItems"  />
+          <UNavigationMenu orientation="vertical" :items="menuItems" class="z-10"/>
         </template>
       </UDrawer>
       <ClientOnly>
         <SignedOut>
           <SignInButton v-slot="props" mode="modal" class="cursor-pointer">
-            <UButton v-bind="props" label="Sign In" />
+            <UButton v-bind="props" label="Sign In"/>
           </SignInButton>
         </SignedOut>
         <SignedIn>

@@ -5,7 +5,7 @@
       <UButton type='submit' label="New List" icon="i-lucide-plus" to="/create"/>
     </div>
     <p v-if="isLoading">loading</p>
-    <div v-else class="flex gap-2">
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
       <UCard v-for="(item, index) in lists" :key='index'>
         <template #header>
           <div class="flex items-center justify-between">

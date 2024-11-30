@@ -56,5 +56,10 @@
     "vue-tsc": "^2.1.10",
     "wrangler": "3.91.0"
   },
-  "packageManager": "pnpm@9.12.1"
+  "packageManager": "pnpm@9.12.1",
+  "pnpm": {
+    "overrides": {
+      "unimport": "3.13.4"
+    }
+  }
 }

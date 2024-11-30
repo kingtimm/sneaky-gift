@@ -2,9 +2,7 @@ import { getAuth } from "vue-clerk/server"
 import { ListInsertSchema } from '~~/shared/types/lists'
 import type { InferInsertModel } from "drizzle-orm";
 import { randomUUID } from 'uncrypto'
-import {buildConflictUpdateColumns} from "~~/server/utils/drizzle";
-
-
+import {buildConflictUpdateColumns, and, useDrizzle, eq, tables } from "~~/server/utils/drizzle";
 
 export default defineEventHandler(async (evt) => {
   const { userId } = getAuth(evt)

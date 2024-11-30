@@ -10,7 +10,7 @@
 
     <h1 class="text-3xl text-center text-tighter font-bold">Your sneaky gift goes to...</h1>
     <RevealName/>
-    <div class="flex flex-col gap-4 rounded-xl bg-neutral-200/90 dark:bg-neutral-800/80 py-8 px-3 items-center">
+    <div class="flex flex-col gap-4 rounded-xl bg-[var(--ui-bg-elevated)]/80 py-8 px-3 items-center">
       <p class="text-center">Spread love and cheer among a <strong>group</strong> of generous gift givers this holiday
         season</p>
       <p>🎅🕎🎁</p>
