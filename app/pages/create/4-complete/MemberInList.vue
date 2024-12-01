@@ -31,9 +31,9 @@ const items = ref([
 
 const url = useRequestURL()
 
-const link = ref(url.protocol + "//" + url.host + store.getInviteLink(id!, props.memberId))
+const link = ref(url.protocol + "//" + url.host + store.getInviteLink(id.toString(), props.memberId))
 
-const { copy, copied } = useClipboard(link.value)
+const { copy, copied } = useClipboard(link)
 
 const toast = useToast()
 
@@ -59,7 +59,7 @@ watch(copied, (newValue) => {
       content: 'w-48'
     }"
     >
-      <UButton icon="i-lucide-menu" color="neutral" variant="ghost"/>
+      <UButton icon="i-lucide-menu" color="neutral" variant="ghost" size="xs"/>
     </UDropdownMenu>
   </div>
 

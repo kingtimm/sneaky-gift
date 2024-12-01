@@ -36,7 +36,7 @@ export default function useCreateFlowController() {
     return arr
   }
 
-  const items = useState('items', itemsComputed)
+  const items = computed(itemsComputed)
 
   // const items = useState('items', () => [
   //   {

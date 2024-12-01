@@ -2,14 +2,10 @@ import {membershipToList} from "~~/server/database/schema";
 import {getAuth} from "vue-clerk/server";
 import { useDrizzle, and, eq, tables } from "~~/server/utils/drizzle";
 
+function error() {
+}
 
 export default defineEventHandler(async (evt) => {
-  const {userId} = getAuth(evt)
-
-  if (!userId) {
-    setResponseStatus(evt, 401)
-    return
-  }
 
   const {list, member } = getRouterParams(evt)
 
@@ -20,7 +16,15 @@ export default defineEventHandler(async (evt) => {
     eq(membershipToList.list, list),
     eq(membershipToList.memberId, member)
   )
-  ).innerJoin(tables.lists, eq(tables.membershipToList.list, tables.lists.id)).where(eq(tables.lists.owner, userId)).innerJoin(tables.members, eq(tables.members.id, tables.membershipToList.memberId)).get()
+  ).innerJoin(tables.lists, eq(tables.membershipToList.list, tables.lists.id)).innerJoin(tables.members, eq(tables.members.id, tables.membershipToList.memberId)).get()
+
+  if (!result && !result.lists) {
+    throw createError({
+      status: 400,
+      statusText: "Something went wrong"
+    });
+
+  }
 
   const currentScenario = JSON.parse(result.lists.currentScenario)
   const pairedMemberPosition = currentScenario[result.membershipToList.position]

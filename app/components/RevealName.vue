@@ -10,7 +10,7 @@
         </div>
       </Transition>
     </div>
-    <UButton class="h-20 rounded-r-xl rounded-l-none opacity-80 bg-red-950" v-bind="computedProps" @click="revealName()"/>
+    <UButton class="h-20 rounded-r-xl rounded-l-none opacity-80 bg-red-950 text-neutral" v-bind="computedProps" @click="revealName()"/>
   </div>
 </template>
 
