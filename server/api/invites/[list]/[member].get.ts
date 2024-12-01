@@ -2,8 +2,6 @@ import {membershipToList} from "~~/server/database/schema";
 import {getAuth} from "vue-clerk/server";
 import { useDrizzle, and, eq, tables } from "~~/server/utils/drizzle";
 
-function error() {
-}
 
 export default defineEventHandler(async (evt) => {
 
@@ -38,6 +36,7 @@ export default defineEventHandler(async (evt) => {
 
   if (pairedMember) {
     return {
+      list: result.lists.name,
       from: result.members,
       to: pairedMember.members
     }
