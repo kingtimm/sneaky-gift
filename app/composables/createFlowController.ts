@@ -98,8 +98,6 @@ export default function useCreateFlowController() {
       const index = Number(route.name.toString()[7]) - 1
       activeTab.value = index
 
-      // reflect in the items list
-      items.value = itemsComputed()
     }
   }, {immediate: true})
 

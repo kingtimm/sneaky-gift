@@ -43,6 +43,7 @@ function remove(memberIdx: number, exclusionIdx: number) {
     newExclusionList.concat(inputState.value.members[memberIdx].exclusions.filter(row => row === exclusionIdx))
     inputState.value.members[memberIdx].exclusions = newExclusionList
   }
+  store.invalidateCurrentScenario()
 }
 
 </script>

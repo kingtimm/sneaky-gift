@@ -39,7 +39,7 @@ definePageMeta({
 
 const { isSignedIn } = useAuth()
 const store = useSecretSantaListStore()
-console.log('store is ', store)
+
 const { isPersisting } = storeToRefs(useUserEntitlementsStore())
 const { id } = useRoute().params
 
@@ -50,7 +50,8 @@ if(!id && isSignedIn.value) {
   await store.reset()
 } else if(id && isSignedIn.value) {
   // logged in and there is an id
-  await store.fetchListById(id.toString())
+  const { refetch } = await store.fetchListById(id.toString())
+  await refetch()
 }
 
 // if you're not logged in and there is an id in the store

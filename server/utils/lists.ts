@@ -1,4 +1,5 @@
-import {lists, type members, type membershipToList} from "~~/server/database/schema";
+import type {lists, type members, type membershipToList} from "~~/server/database/schema";
+import {inArray} from "drizzle-orm";
 
 type List = typeof lists.$inferSelect
 type MembershipToList = typeof membershipToList.$inferSelect
@@ -30,4 +31,9 @@ export function flattenListResponse(input: Input) {
 export function deleteList(id: string, owner: string) {
   const db = useDrizzle()
   return db.delete(tables.lists).where(and(eq(tables.lists.id, id), eq(tables.lists.owner, owner))).returning()
+}
+
+export function deleteMembershipToList(memberIds: string[]) {
+  const db = useDrizzle()
+  return db.delete(tables.membershipToList).where(inArray(tables.membershipToList.memberId, memberIds)).prepare()
 }

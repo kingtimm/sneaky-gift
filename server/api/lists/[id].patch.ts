@@ -1,11 +1,13 @@
-import { getAuth } from "vue-clerk/server"
-import { ListInsertSchema } from '~~/shared/types/lists'
-import type { InferInsertModel } from "drizzle-orm";
-import { randomUUID } from 'uncrypto'
-import {buildConflictUpdateColumns, and, useDrizzle, eq, tables } from "~~/server/utils/drizzle";
+import {getAuth} from "vue-clerk/server"
+import {ListInsertSchema} from '~~/shared/types/lists'
+import type { InferInsertModel} from "drizzle-orm";
+import {inArray} from "drizzle-orm";
+import {randomUUID} from 'uncrypto'
+import {buildConflictUpdateColumns, and, useDrizzle, eq, tables} from "~~/server/utils/drizzle";
+import {deleteMembershipToList} from "~~/server/utils/lists";
 
 export default defineEventHandler(async (evt) => {
-  const { userId } = getAuth(evt)
+  const {userId} = getAuth(evt)
 
   if (!userId) {
     setResponseStatus(evt, 401)
@@ -14,13 +16,14 @@ export default defineEventHandler(async (evt) => {
 
   const parse = ListInsertSchema.parse
   const result = await readValidatedBody(evt, parse)
-  const { id } = getRouterParams(evt)
+  const {id} = getRouterParams(evt)
 
   const db = useDrizzle()
-  const list = await  db.select().from(tables.lists).where(and(
+  const list = await db.select().from(tables.lists).where(and(
     eq(tables.lists.owner, userId),
     eq(tables.lists.id, id)
-  )).get()
+  )).leftJoin(tables.membershipToList, eq(tables.membershipToList.list, tables.lists.id)).all()
+
 
   if (!list) {
     throw createError({
@@ -37,6 +40,16 @@ export default defineEventHandler(async (evt) => {
     id: id,
     currentScenario: JSON.stringify(result.currentScenario)
   } satisfies InferInsertModel<typeof tables.lists>
+
+  const membersToDelete = list.filter(row => {
+    if (row.membershipToList === null) {
+      return false
+    }
+    const membersInPatch = result.members.map(prow => prow.id)
+    return !membersInPatch.includes(row.membershipToList.memberId)
+  }).map(row=> row.membershipToList!.memberId)
+
+  const deleteMembersPreparedStatement = deleteMembershipToList(membersToDelete)
 
   // create the members
   const memberValues = result.members.map(row => {
@@ -69,6 +82,7 @@ export default defineEventHandler(async (evt) => {
       name: listValue.name,
       currentScenario: listValue.currentScenario,
     }).where(eq(tables.lists.id, id)),
+    db.delete(tables.membershipToList).where(inArray(tables.membershipToList.memberId, membersToDelete)),
     db.insert(tables.members).values(memberValues).onConflictDoUpdate({
       target: tables.members.id,
       set: buildConflictUpdateColumns(tables.members, ['name'])

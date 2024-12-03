@@ -1,7 +1,7 @@
 <template>
-  <div class="flex items-center">
+  <div class="flex items-center shadow">
     <div
-      class=" flex h-20 min-w-48  items-center justify-center text-white">
+      class=" flex h-20 min-w-48  items-center justify-center text-white opacity-80">
       <Transition appear mode="out-in">
         <div v-if="!revealed" class="present-background rounded-l-xl w-full h-full"/>
         <div v-else class="text-black dark:text-white">
@@ -10,7 +10,7 @@
         </div>
       </Transition>
     </div>
-    <UButton class="h-20 rounded-r-xl rounded-l-none opacity-80 bg-red-950 text-neutral" v-bind="computedProps" @click="revealName()"/>
+    <UButton class="h-20 rounded-r-xl rounded-l-none opacity-80" v-bind="computedProps" @click="revealName()"/>
   </div>
 </template>
 
@@ -61,7 +61,7 @@ const computedProps = computed(() => {
 }
 
 .present-background {
-  --stripe1: var(--ui-color-primary-950);
+  --stripe1: var(--ui-primary);
   --stripe2: var(--color-white);
   background: repeating-linear-gradient(
     45deg,

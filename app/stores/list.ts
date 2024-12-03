@@ -39,12 +39,10 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     return data
   }
 
-  watch(inputState.value.members, (_newValue, _oldValue) => {
-    // reset current scenario and possibilities
+  function invalidateCurrentScenario() {
     possibilities.value = 0
     currentScenario.value = []
-  })
-
+  }
 
   // create a new 'useListById' function that takes id and returns {id, ...query}
   async function fetchListById(id: string) {
@@ -66,18 +64,10 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
         return res
 
       }),
+      enabled: false
     })
 
-    // if (data.value) {
-    //   inputState.value.id = data.value.id
-    //   inputState.value.name = data.value.name
-    //   inputState.value.members = data.value.members.map(row => {
-    //     return {
-    //     'name': row.name!, 'exclusions': JSON.parse(row.exclusions), id: row.id
-    //     }
-    //   })
-    //   currentScenario.value = JSON.parse(data.value?.currentScenario)
-    return {data, ...rest}
+   return {data, ...rest}
   }
 
   function getInviteLink(id: string, memberid: string) {
@@ -136,7 +126,8 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
     currentScenario,
     getSavePostData,
     fetchListById,
-    getInviteLink
+    getInviteLink,
+    invalidateCurrentScenario,
   }
 }, {
   persist: {
