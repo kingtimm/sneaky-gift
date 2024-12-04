@@ -4,10 +4,16 @@ export const useUserEntitlementsStore = defineStore('userEntitlements', () => {
   const { isSignedIn  } = useAuth()
 
   const route = useRoute()
+  const listStore = useSecretSantaListStore()
   const { id } = route.params
 
-  watch([isSignedIn], () => {
-    shouldPersist.value = !isSignedIn.value;
+  watch(isSignedIn, (newValue, _oldValue) => {
+    shouldPersist.value = !isSignedIn.value
+
+    // should reset when we're going from logged in to logged out
+    if(!newValue) {
+      listStore.reset()
+    }
   }, {immediate: true})
 
   return {

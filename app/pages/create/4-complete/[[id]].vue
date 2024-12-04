@@ -65,7 +65,7 @@ const route = useRoute()
 const {isLoaded, isSignedIn} = useAuth()
 
 async function onSubmit(_event?: FormSubmitEvent<InputStateSchema>) {
-  if (isLoaded && isSignedIn) {
+  if (isLoaded.value && isSignedIn.value) {
     const body = store.getSavePostData()
     if (route.params.id) {
       updateList(body)

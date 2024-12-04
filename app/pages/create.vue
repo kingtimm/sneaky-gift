@@ -46,9 +46,7 @@ const { id } = useRoute().params
 console.log('handing ', [id, isSignedIn.value])
 
 // this is a net new list authenticated
-if(!id && isSignedIn.value) {
-  await store.reset()
-} else if(id && isSignedIn.value) {
+if(id && isSignedIn.value) {
   // logged in and there is an id
   const { refetch } = await store.fetchListById(id.toString())
   await refetch()
