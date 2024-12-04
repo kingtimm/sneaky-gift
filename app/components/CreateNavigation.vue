@@ -6,18 +6,6 @@ const props = defineProps<{
   activeTab: number,
 }>()
 
-function shouldShowName(index: number, active: boolean | undefined) {
-  if (props.activeTab === index) {
-    return true
-  }
-  // inactice
-  if ((props.activeTab + 1) === index) {
-    return true
-  }
-
-  return false
-}
-
 </script>
 
 <template>
@@ -30,7 +18,6 @@ function shouldShowName(index: number, active: boolean | undefined) {
           {{ index + 1 }}
         </UBadge>
 
-        <!-- <p v-if="shouldShowName(index, active)">{{ item.label }}</p> -->
         <p>{{ item.label }}</p>
         </div>
       </template>

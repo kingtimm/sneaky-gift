@@ -54,7 +54,8 @@ export const useSecretSantaListStore = defineStore('secretSantaList', () => {
           const d = res
           inputState.value.id = d.id
           inputState.value.name = d.name
-          inputState.value.members = d.members.map(row => {
+          const sorted = d.members.sort((a, b) => a.position - b.position)
+          inputState.value.members = sorted.map(row => {
             return {
               'name': row.name!, 'exclusions': JSON.parse(row.exclusions), id: row.id
             }

@@ -59,7 +59,7 @@ watch(copied, (newValue) => {
       content: 'w-48'
     }"
     >
-      <UButton icon="i-lucide-menu" color="neutral" variant="ghost" size="xs"/>
+      <UButton icon="i-lucide-ellipsis" color="neutral" variant="subtle" size="xs"/>
     </UDropdownMenu>
   </div>
 

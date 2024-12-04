@@ -18,7 +18,7 @@
           </div>
           <template v-if="store.currentScenario.length > 0 && store.currentScenario[i] !== undefined">
 
-            <UIcon class="" name="i-heroicons-arrow-right-20-solid"/>
+            <UIcon class="" name="i-lucide-arrow-right"/>
 
             <RevealableName
 

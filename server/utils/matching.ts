@@ -31,15 +31,20 @@ export function getAllPossibilities(array: number[], exclusions?: Exclusions): n
   const permutationArray = getPermutations(array)
 
   const possibilities = permutationArray.filter((perm) => {
-    const isRejectable = array.some((item, index) => {
+    const isRejectable = array.some((memberNum, index) => {
       // skip if there's a fixed point
-      const isFixedPoint = item === perm[index]
-      let isExcluded = false
+      const isFixedPoint = memberNum === perm[index]
 
       // skip if there's an exclusion
-      if (exclusions && exclusions[index]) {
-        isExcluded = exclusions[index].some((exItem, _exIndex)=> exItem === perm[index])
+      let isExcluded = false
+
+      // [[2,3],[3,2]] is an example of how these pairs come over
+      if (exclusions) {
+      isExcluded = exclusions.some(([exGifter, exGiftee])=> {
+        return memberNum === exGifter && perm[index] === exGiftee;
+      })
       }
+
       return (isFixedPoint || isExcluded)
     })
     return !isRejectable
@@ -47,7 +52,7 @@ export function getAllPossibilities(array: number[], exclusions?: Exclusions): n
   if (possibilities.length === 0) {
     throw createError({
       statusCode: 400,
-      message: "No secret santa matches for this list"
+      statusMessage: "No secret santa matches for this list"
     })
   }
   return possibilities
