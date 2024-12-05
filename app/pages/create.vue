@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2">
-    <CreateNavigation class="max-sm:hidden" :items="items" :active-tab="activeTab"/>
+    <CreateNavigation class="" :items="items" :active-tab="activeTab"/>
     <NuxtPage v-bind="pageProps" />
     <div id="create-controls" class="flex justify-between space-x-4 mt-4">
       <div class="flex gap-2">

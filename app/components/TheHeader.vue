@@ -46,7 +46,7 @@ watch(isSignedIn, () => {
 
 <template>
   <div class='max-w-2xl mx-auto flex items-center p-2 sticky justify-between'>
-    <TheLogo class="w-1/5"/>
+    <TheLogo/>
     <div class="flex gap-4 justify-end">
       <UNavigationMenu :items="menuItems" class="block max-sm:hidden"/>
       <UDrawer v-model:open="drawerOpen" title="Menu" direction="right" class="w-2/3">

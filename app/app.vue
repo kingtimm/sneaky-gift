@@ -1,8 +1,19 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'sneaky gift',
-  description: 'A Secret Santa App to share with friends'
+  description: 'A Secret Santa App to share with friends',
 })
+
+useHeadSafe({
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico',
+    }
+  ]
+})
+
 </script>
 
 <template>

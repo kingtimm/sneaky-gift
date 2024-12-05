@@ -3,14 +3,14 @@
     <div
       class=" flex h-20 min-w-48  items-center justify-center text-white opacity-80">
       <Transition appear mode="out-in">
-        <div v-if="!revealed" class="present-background rounded-l-xl w-full h-full"/>
+        <div v-if="!revealed" class="present-background rounded-l-xl w-full h-full" @click="revealName()"/>
         <div v-else class="text-black dark:text-white">
           <RandomName v-if="!name "/>
           <p v-else>{{ name }}</p>
         </div>
       </Transition>
     </div>
-    <UButton class="h-20 rounded-r-xl rounded-l-none opacity-80" v-bind="computedProps" @click="revealName()"/>
+    <UButton class="h-20 rounded-r-xl rounded-l-none opacity-80 font-bold text-xl" size="xl" v-bind="computedProps" @click="revealName()"/>
   </div>
 </template>
 
@@ -28,8 +28,7 @@ function revealName() {
 
 const computedProps = computed(() => {
   return {
-    label: revealed.value ? 'Reveal' : 'Reveal',
-    icon: revealed.value ? 'i-lucide-eye-off' : 'i-lucide-eye',
+    label: revealed.value ? 'Hide' : 'Reveal',
 
   }
 })

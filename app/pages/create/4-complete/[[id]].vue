@@ -4,8 +4,19 @@
       <h1 class="text-xl">All set</h1>
     </div>
     <div class="flex justify-between gap-2">
-      <UButton label="Get Gift Pairings" icon="i-lucide-gift" @click="fetchPossibilities()"/>
-      <UButton label="Show All" icon="i-lucide-eye" @click="allReveal = true"/>
+      <UButton v-if="!store.currentScenario.length" label="Get Gift Pairings" icon="i-lucide-gift" @click="fetchPossibilities()"/>
+      <UModal
+        v-else
+        v-model:open="open" title="Erase Pairings" description="This will replace gift pairing assignments. Please be careful if you have already shared."
+        :ui="{ footer: 'justify-end' }">
+        <UButton label="Update Gift Pairings" icon="i-lucide-gift"/>
+
+        <template #footer>
+          <UButton label="Cancel"  variant="outline" @click="open = false" />
+          <UButton label="Confirm" icon="i-lucide-gift" @click="fetchPossibilities(); open=false"/>
+        </template>
+      </UModal>
+      <UButton label="Show All" icon="i-lucide-eye" @click="allReveal = !allReveal"/>
     </div>
 
     <div class="flex gap-2">
@@ -59,6 +70,8 @@ const store = useSecretSantaListStore()
 
 const allReveal = useState('allReveal', () => false)
 
+const open = useState(()=>false)
+
 const toast = useToast()
 const modal = useModal()
 const route = useRoute()
@@ -76,7 +89,8 @@ async function onSubmit(_event?: FormSubmitEvent<InputStateSchema>) {
       title: 'Saved Successfully',
       description: `Saved ${store.inputState.name}`
     })
-    return navigateTo('/lists/')
+    // return navigateTo('/lists/')
+    return
   }
   modal.open(LoginCTA, {title: "Log in", redirectUrl: route.fullPath})
 }

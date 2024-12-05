@@ -22,8 +22,6 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
     return navigateTo('/create/1-name/')
   }
 
-  console.log('from', _from)
-
   if (
     !to.params.id &&
     !to.path.startsWith('/create/1-name/') &&
