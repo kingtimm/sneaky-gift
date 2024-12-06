@@ -2,7 +2,7 @@
 const props = defineProps<
   {
     name: string,
-    triggerAll: boolean,
+    triggerAll?: boolean,
   }
 
 >()
