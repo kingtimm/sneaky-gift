@@ -43,22 +43,11 @@ const store = useSecretSantaListStore()
 const { isPersisting } = storeToRefs(useUserEntitlementsStore())
 const { id } = useRoute().params
 
-console.log('handing ', [id, isSignedIn.value])
-
-// this is a net new list authenticated
-if(id && isSignedIn.value) {
-  // logged in and there is an id
-  const { refetch } = await store.fetchListById(id.toString())
-  await refetch()
-}
-
-// if you're not logged in and there is an id in the store
-if(isSignedIn.value === false && store.inputState.id) {
-  await store.reset()
-}
-
 // get the items list
-const { nextTab, previousTab, activeTab, items, shouldDisable} = useCreateFlowController()
+const { nextTab, previousTab, activeTab, items, shouldDisable, handlePageEntry} = useCreateFlowController()
+
+const route = useRoute()
+await handlePageEntry(route)
 
 // props to pass to nested pages
 const pageProps = {

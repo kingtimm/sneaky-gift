@@ -1,11 +1,14 @@
 import type {TabbedNavigationPageItem} from "#shared/types/ui";
+import type {RouteLocationNormalized, RouteLocationNormalizedGeneric} from "vue-router";
+import {useClerkProvider} from "vue-clerk";
+import {until} from "@vueuse/core";
 
 export default function useCreateFlowController() {
 
   const store = useSecretSantaListStore()
 
-  const itemsComputed = ()=> {
-    const { id } = useRoute().params
+  const itemsComputed = () => {
+    const {id} = useRoute().params
     const arr = [
       {
         label: 'Start',
@@ -38,59 +41,98 @@ export default function useCreateFlowController() {
 
   const items = computed(itemsComputed)
 
-  // const items = useState('items', () => [
-  //   {
-  //     label: 'Start',
-  //     disabled: false,
-  //     to: '/create/1-name/',
-  //     controls: 'next-only'
-  //   },
-  //   {
-  //     label: 'Members',
-  //     disabled: true,
-  //     to: '/create/2-members/',
-  //     controls: 'both'
-  //   },
-  //   {
-  //     label: 'Handling',
-  //     disabled: true,
-  //     to: '/create/3-handling/',
-  //     controls: 'both'
-  //   },
-  //   {
-  //     label: 'Complete',
-  //     disabled: true,
-  //     to: '/create/4-complete/',
-  //     controls: 'previous-only'
-  //   },
-  // ] satisfies TabbedNavigationPageItem[])
 
   function shouldDisable(step: number) {
     // return True to disable
     const stepsPrerequisites: (() => boolean)[] = [
       () => false,
-      () => store.inputState.name === "" || !StateZSchema.pick({ name: true }).safeParse(store.inputState).success,
+      () => store.inputState.name === "" || !StateZSchema.pick({name: true}).safeParse(store.inputState).success,
       () => store.inputState.members.length <= 1,
       () => store.inputState.members.length <= 1,
     ]
     const result = stepsPrerequisites[step] ??= () => false
     return computed(result)
+  }
 
+  function canLoadStep(toRoute: RouteLocationNormalizedGeneric) {
+    const step = Number(toRoute.path.toString()[8]) - 1
+    return !shouldDisable(step).value
   }
 
   // tab logic
-  const activeTab = useState('activeTab', ()=>0)
+  const activeTab = useState('activeTab', () => 0)
   const nextUrl = computed(() => items.value[activeTab.value + 1]?.to)
   const prevUrl = computed(() => items.value[activeTab.value - 1]?.to)
 
   function nextTab() {
     return navigateTo(nextUrl.value)
   }
+
   function previousTab() {
     return navigateTo(prevUrl.value)
   }
 
+  // return
+  function goToStart() {
+    return navigateTo('/create/1-name/')
+  }
+
+  const {isLoaded, isSignedIn} = useAuth()
+
+  /*
+  create flow handling when we're not authenticated
+  */
+  async function handleIfNotAuthenticated(toRoute: RouteLocationNormalizedGeneric) {
+    // clear store in case we're unauthenticated but have store data w/ id
+    if (store.inputState.id) {
+      await store.reset()
+    }
+    // re-route unless conditions below
+    if ([
+      !route.params.id, // should not have an id
+      canLoadStep(toRoute), // should have sufficient state
+    ].every(Boolean)) {
+      return true
+    } else {
+      return goToStart()
+    }
+  }
+
+  /*
+    create flow handling if we are authenticated
+  */
+
+  async function handleIfAuthenticated(toRoute: RouteLocationNormalizedGeneric) {
+    // this is a net new list authenticated
+    if (toRoute.params.id) {
+      // logged in and there is an toRoute.params.id
+      const {refetch} = await store.fetchListById(toRoute.params.id.toString())
+      await refetch()
+    }
+
+    // re-route unless conditions below
+    if ([
+      canLoadStep(toRoute), // should have sufficient state
+    ].every(Boolean)) {
+      return true
+    } else {
+      return goToStart()
+    }
+  }
+
   const route = useRoute()
+
+  async function handlePageEntry(toRoute: RouteLocationNormalizedGeneric) {
+    // this helps with https://github.com/wobsoriano/vue-clerk/issues/13
+    const {isClerkLoaded} = useClerkProvider()
+    if (import.meta.client) {
+      await until(isClerkLoaded).toBe(true)
+    }
+
+    return (isLoaded.value && !isSignedIn.value)
+      ? await handleIfNotAuthenticated(toRoute)
+      : await handleIfAuthenticated(toRoute)
+  }
 
   watch([route], () => {
     if (route.name) {
@@ -109,6 +151,7 @@ export default function useCreateFlowController() {
     nextUrl,
     previousTab,
     nextTab,
-    shouldDisable
+    shouldDisable,
+    handlePageEntry
   }
 }

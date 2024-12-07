@@ -26,7 +26,6 @@ export default defineEventHandler(async (evt) => {
 
   const currentScenario = JSON.parse(result.lists.currentScenario)
   const pairedMemberPosition = currentScenario[result.membershipToList.position]
-  console.log('pairedmember', pairedMemberPosition)
   const pairedMember = await db.select().from(tables.membershipToList).where(
     and(
       eq(membershipToList.list, list),

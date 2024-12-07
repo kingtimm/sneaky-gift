@@ -99,8 +99,6 @@ function addRule() {
   for (const [x, y] of exclusionsToAdd) {
     if (x !== undefined && y !== undefined)
       //confirm they are not already in the list
-      console.log('exclusionsToPush are currently', exclusionsToAdd)
-    console.log('exclusions are currently', store.exclusions)
     if (store.exclusions.find(e => JSON.stringify(e) === JSON.stringify([x, y]))) {
       return
     } else {
