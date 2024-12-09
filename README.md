@@ -2,6 +2,8 @@
 
 Share a gift exchange with your friends.
 
+Demo: View live on NuxtHub @ [Sneaky Gift](https://sneaky.gift)
+
 ## Features
 
 - Create a shared gift exchange
