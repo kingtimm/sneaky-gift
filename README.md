@@ -1,16 +1,16 @@
-# NuxtHub Starter Template
+# Sneaky Gift
 
-This starter lets you get started with [NuxtHub](https://hub.nuxt.com) in seconds.
-
-- [Documentation](https://hub.nuxt.com)
+Share a gift exchange with your friends.
 
 ## Features
 
-- Image upload with [`hubBlob()`](http://hub.nuxt.com/docs/storage/blob)
-- Save chat messages with [`hubDatabase()`](http://hub.nuxt.com/docs/storage/database)
-- Save server redirects with [`hubKV()`](http://hub.nuxt.com/docs/storage/kv)
-- Cache an API response with [`cachedEventHandler()`](https://hub.nuxt.com/docs/server/cache)
-- Generate the API documentation with Scalar within the [NuxtHub Admin](https://admin.hub.nuxt.com)
+- Create a shared gift exchange
+- Prevent certain exchange pairings
+- Organizer can share with members without knowing results
+
+## Thanks
+
+Special thanks to the Nuxt team as well as @wobsoriano for the vue-clerk module
 
 ## Setup
 
