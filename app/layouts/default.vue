@@ -7,3 +7,8 @@
     <TheFooter/>
   </div>
 </template>
+
+<script setup lang="ts">
+defineOgImageComponent('Main', {
+  title: 'Is this thing on?'
+})</script>

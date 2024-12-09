@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
     '@formkit/auto-animate/nuxt',
     '@pinia/colada-nuxt',
+    'nuxt-og-image',
   ],
   clerk: {
     appearance: {
@@ -49,7 +50,7 @@ export default defineNuxtConfig({
   nitro: {
     experimental: {
       // Enable Server API documentation within NuxtHub
-      openAPI: true
+      openAPI: false
     }
   },
   // Development

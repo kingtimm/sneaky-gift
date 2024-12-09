@@ -30,6 +30,7 @@
     "drizzle-zod": "^0.5.1",
     "nitropack": "^2.10.4",
     "nuxt": "^3.14.1592",
+    "nuxt-og-image": "4.0.1",
     "pinia-plugin-persistedstate": "^4.1.3",
     "typescript": "^5.7.2",
     "vue-clerk": "^0.9.6",
