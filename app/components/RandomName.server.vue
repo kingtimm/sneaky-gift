@@ -32,4 +32,3 @@ const names = [
 const name = names[Math.floor(Math.random()*names.length)]
 
 </script>
-</p></template>
