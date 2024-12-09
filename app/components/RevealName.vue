@@ -4,7 +4,7 @@
       class=" flex h-20 min-w-48  items-center justify-center text-white opacity-80">
       <Transition appear mode="out-in">
         <div v-if="!revealed" class="present-background rounded-l-xl w-full h-full" @click="revealName()"/>
-        <div v-else class="text-black dark:text-white">
+        <div v-else class="text-black font-display dark:text-white">
           <RandomName v-if="!name "/>
           <p v-else>{{ name }}</p>
         </div>

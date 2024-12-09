@@ -8,10 +8,10 @@
       :speed="0.5"
     />
 
-    <h1 class="text-3xl text-center text-tighter font-bold">Your sneaky gift goes to...</h1>
+    <h1 class="text-3xl text-center text-tighter font-display">Your sneaky gift goes to...</h1>
     <RevealName/>
     <div class="flex flex-col gap-4 rounded-xl bg-[var(--ui-bg-elevated)]/80 py-8 px-3 items-center">
-      <p class="text-center">Spread love and cheer among a <strong>group</strong> of generous gift givers this holiday
+      <p class="text-center font-display">Spread love and cheer among a <strong>group</strong> of generous gift givers this holiday
         season</p>
       <p>🎅🕎🎁</p>
     <UButton trailing-icon="i-lucide-arrow-right" class="" size="xl" to="/create">Organize a Group</UButton>

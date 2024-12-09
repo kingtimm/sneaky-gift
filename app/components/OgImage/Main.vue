@@ -38,11 +38,11 @@ withDefaults(defineProps<{
       </p>
     </div>
 <!--    <div-->
-<!--      class="w-3/4 h-18 rounded" :style="-->
+<!--      class="w-3/4 h-18 rounded-xl" :style="-->
 <!--    {-->
-<!--      background: `repeating-linear-gradient(45deg,rgb(220 38 38),rgb(220 38 38) 10px,rgb(255, 255, 255) 10px,rgb(255, 255, 255) 20px)`-->
+<!--      background: `repeating-linear-gradient(45deg,oklch(.704 .191 22.216),oklch(.704 .191 22.216) 10px,rgb(255, 255, 255) 10px,rgb(255, 255, 255) 20px)`-->
 <!--    }">-->
-<!--      hello-->
+<!--      -->
 <!--    </div>-->
   </div>
 </template>

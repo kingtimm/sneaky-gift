@@ -1,5 +1,6 @@
 <template>
-  <p class="text-2xl font-bold">
+  <p
+class="text-2xl">
     {{ name }}
   </p>
 </template>
@@ -31,3 +32,4 @@ const names = [
 const name = names[Math.floor(Math.random()*names.length)]
 
 </script>
+</p></template>

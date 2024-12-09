@@ -1,5 +1,5 @@
 <template>
-  <div class="text-lg font-extrabold sm:text-xl tracking-tighter whitespace-nowrap">
+  <div class="text-lg sm:text-xl tracking-tighter whitespace-nowrap font-display">
     <ULink class="text-neutral active:text-neutral" to="/">
       <p class="flex items-end">
         <UIcon name="i-lucide-venetian-mask" class="size-6 mr-2 text-primary-500"/>

@@ -1,13 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { dark } from '@clerk/themes'
+import {dark} from '@clerk/themes'
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-07-30',
   // Nuxt 4 directory structure and features
   // https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4
-  future: { compatibilityVersion: 4 },
+  future: {compatibilityVersion: 4},
   // Nuxt Modules
   // https://nuxt.com/modules
+  css: ['~/assets/css/main.css'],
   modules: [
     '@nuxthub/core',
     '@nuxt/eslint',
@@ -37,9 +38,16 @@ export default defineNuxtConfig({
       processCSSVariables: true,
     },
   },
+  ogImage: {
+    fonts: [
+      // will load the Noto Sans font from Google fonts
+      'Lilita+One:200',
+      'Lilita+One:400'
+    ]
+  },
   routeRules: {
-    '/create/**': { ssr: false },
-    '/lists/**': { ssr: false },
+    '/create/**': {ssr: false},
+    '/lists/**': {ssr: false},
   },
 
   hub: {
@@ -54,5 +62,5 @@ export default defineNuxtConfig({
     }
   },
   // Development
-  devtools: { enabled: true },
+  devtools: {enabled: true},
 })
