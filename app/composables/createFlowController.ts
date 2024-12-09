@@ -110,6 +110,11 @@ export default function useCreateFlowController() {
       await refetch()
     }
 
+    // if there's a stored list but we're back on the raw create page
+    if (store.inputState.id && !toRoute.params.id) {
+      await store.reset()
+    }
+
     // re-route unless conditions below
     if ([
       canLoadStep(toRoute), // should have sufficient state
