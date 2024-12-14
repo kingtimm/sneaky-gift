@@ -1,5 +1,5 @@
 import type {TabbedNavigationPageItem} from "#shared/types/ui";
-import type {RouteLocationNormalized, RouteLocationNormalizedGeneric} from "vue-router";
+import type {RouteLocationNormalizedGeneric} from "vue-router";
 import {useClerkProvider} from "vue-clerk";
 import {until} from "@vueuse/core";
 

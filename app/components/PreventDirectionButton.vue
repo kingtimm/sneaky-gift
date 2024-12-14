@@ -10,20 +10,20 @@ const buttonProps: ComputedRef<ButtonProps> = computed(() => {
   switch (state.value) {
     case -1: {
       return {
-        icon: 'i-heroicons-chevron-left',
+        icon: 'i-lucide-chevron-left',
         'aria-label': 'Left Only',
       }
     }
     case 1: {
       return {
-        icon: 'i-heroicons-chevron-right',
+        icon: 'i-lucide-chevron-right',
         'aria-label': 'Right Only',
       }
     }
 
     default: {
       return {
-        icon: 'i-heroicons-arrows-right-left',
+        icon: 'i-lucide-arrow-right-left',
         'aria-label': 'Both',
       }
     }

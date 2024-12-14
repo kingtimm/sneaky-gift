@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxthub/core',
     '@nuxt/eslint',
-    '@nuxt/ui',
+    '@nuxt/ui-pro',
     'vue-clerk/nuxt',
     '@nuxt/image',
     '@nuxt/fonts',
@@ -23,7 +23,10 @@ export default defineNuxtConfig({
     '@formkit/auto-animate/nuxt',
     '@pinia/colada-nuxt',
     'nuxt-og-image',
+    '@nuxtjs/mdc'
   ],
+  uiPro: {
+  },
   clerk: {
     appearance: {
       baseTheme: dark

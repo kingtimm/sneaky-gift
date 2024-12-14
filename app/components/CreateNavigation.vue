@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TabbedNavigationPageItem } from '~~/shared/types/ui';
+import { StepperSeparator } from 'reka-ui'
 
 const props = defineProps<{
   items: TabbedNavigationPageItem[],
@@ -20,6 +21,9 @@ const props = defineProps<{
 
         <p>{{ item.label }}</p>
         </div>
+        <StepperSeparator
+          v-if="index < items.length - 1"
+        />
       </template>
     </UNavigationMenu>
 </template>
